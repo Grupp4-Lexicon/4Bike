@@ -1,6 +1,9 @@
+using _4Bike.Areas.Identity.Data;
+using _4Bike.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,6 +28,12 @@ namespace _4Bike
         {
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+                   .AddDefaultUI()
+                   .AddDefaultTokenProviders()
+                   .AddEntityFrameworkStores<AuthDbContext>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,7 +55,7 @@ namespace _4Bike
             app.UseRouting();
 
             app.UseAuthorization();
-            app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

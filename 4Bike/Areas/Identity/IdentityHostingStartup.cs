@@ -20,15 +20,15 @@ namespace _4Bike.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("AuthDbContextConnection")));
 
-                services.AddDefaultIdentity<ApplicationUser>(options =>
-                {
-                    options.SignIn.RequireConfirmedAccount = true;
-                    //For quick testing purposes only, remove everything below later
-                    options.Password.RequireLowercase = false;
-                    options.Password.RequireUppercase = false;
+                //services.AddDefaultIdentity<ApplicationUser>(options =>
+                //{
+                //    options.SignIn.RequireConfirmedAccount = true;
+                //    //For quick testing purposes only, remove everything below later
+                //    options.Password.RequireLowercase = false;
+                //    options.Password.RequireUppercase = false;
 
-                })
-                    .AddEntityFrameworkStores<AuthDbContext>();
+                //})
+                //    .AddEntityFrameworkStores<AuthDbContext>();
             });
         }
     }
