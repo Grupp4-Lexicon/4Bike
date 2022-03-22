@@ -55,7 +55,8 @@ namespace _4Bike.Data
                 NormalizedUserName = "ADMIN@ADMIN.COM",
                 PasswordHash = hasher.HashPassword(null, "password"),
                 FirstName = "Admin",
-                LastName = "Adminsson"
+                LastName = "Adminsson",
+                Address = "Testgatan 20"
             });
 
             builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
