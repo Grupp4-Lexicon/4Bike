@@ -10,8 +10,8 @@ using _4Bike.Data;
 namespace _4Bike.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    [Migration("20220322092437_Address column added to user")]
-    partial class Addresscolumnaddedtouser
+    [Migration("20220322145153_Initial_Create")]
+    partial class Initial_Create
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,15 +50,15 @@ namespace _4Bike.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3137d381-3482-4255-b9b5-37b544f5d7e1",
-                            ConcurrencyStamp = "950d821e-f97a-449f-a85d-9b2196253cc9",
+                            Id = "42c10cb8-037a-4ebc-9298-9764363b7804",
+                            ConcurrencyStamp = "ddb9417b-5582-4bfa-987a-1176b73939e0",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "8c1099d6-7b70-43d5-a1f8-03a35e3150bb",
-                            ConcurrencyStamp = "cdeefa20-b20b-4c9e-a4bb-948d7a11534b",
+                            Id = "59be7a65-239e-423a-a490-2a48f92e6caa",
+                            ConcurrencyStamp = "aefde569-f1be-4add-b3fa-b02db4b6a200",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -115,12 +115,10 @@ namespace _4Bike.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -153,8 +151,8 @@ namespace _4Bike.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "8c1099d6-7b70-43d5-a1f8-03a35e3150bb",
-                            RoleId = "3137d381-3482-4255-b9b5-37b544f5d7e1"
+                            UserId = "59be7a65-239e-423a-a490-2a48f92e6caa",
+                            RoleId = "42c10cb8-037a-4ebc-9298-9764363b7804"
                         });
                 });
 
@@ -164,12 +162,10 @@ namespace _4Bike.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -255,9 +251,10 @@ namespace _4Bike.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8c1099d6-7b70-43d5-a1f8-03a35e3150bb",
+                            Id = "59be7a65-239e-423a-a490-2a48f92e6caa",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "400e8fde-fb75-455a-bcab-b290329ab3b7",
+                            Address = "Testgatan 20",
+                            ConcurrencyStamp = "cbc6661e-dd2e-4b71-8cd3-76d07236f1cf",
                             Email = "admin@admin.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -265,12 +262,96 @@ namespace _4Bike.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMJeiI1XzsOP9PNba+uXJqWP16id+98RJKOMnc2FjcZ+um9K8GK7F3YnIE9B37QQeg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENF5kOW+ONijaTsmgfLgpPtR4rDwvR3mZ2jp2zqXub2SPXec0qm0OudlZWpXldPwaQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "836383e1-b486-4a56-91bd-9672683520db",
+                            SecurityStamp = "8b6a537c-a24d-4898-bdd5-d8e1153f5e98",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
+                });
+
+            modelBuilder.Entity("_4Bike.Models.Products.Product_Bike", b =>
+                {
+                    b.Property<int>("BikeID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BikeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BikePicNav")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("BikePrice")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ManufacturerID")
+                        .HasColumnType("int");
+
+                    b.HasKey("BikeID");
+
+                    b.HasIndex("ManufacturerID");
+
+                    b.ToTable("Bikes");
+                });
+
+            modelBuilder.Entity("_4Bike.Models.Products.Product_BikeOrder", b =>
+                {
+                    b.Property<int>("BikeOrderID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BikeOrderBikeID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BikeOrderOrderID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BikeOrderQuantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("BikeOrderID");
+
+                    b.HasIndex("BikeOrderBikeID");
+
+                    b.HasIndex("BikeOrderOrderID");
+
+                    b.ToTable("BikeOrders");
+                });
+
+            modelBuilder.Entity("_4Bike.Models.Products.Product_Manufacturer", b =>
+                {
+                    b.Property<int>("ManufacturerID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ManufacturerName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ManufacturerID");
+
+                    b.ToTable("Manufacturers");
+                });
+
+            modelBuilder.Entity("_4Bike.Models.Products.Product_Order", b =>
+                {
+                    b.Property<int>("OrderID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OrderHandelCost")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderID");
+
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -320,6 +401,30 @@ namespace _4Bike.Migrations
                     b.HasOne("_4Bike.Areas.Identity.Data.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("_4Bike.Models.Products.Product_Bike", b =>
+                {
+                    b.HasOne("_4Bike.Models.Products.Product_Manufacturer", "Manufacturer")
+                        .WithMany("ManufacturerProducts")
+                        .HasForeignKey("ManufacturerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("_4Bike.Models.Products.Product_BikeOrder", b =>
+                {
+                    b.HasOne("_4Bike.Models.Products.Product_Bike", "BikeOrderBike")
+                        .WithMany("Orders")
+                        .HasForeignKey("BikeOrderBikeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("_4Bike.Models.Products.Product_Order", "BikeOrderOrder")
+                        .WithMany("Bikes")
+                        .HasForeignKey("BikeOrderOrderID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
