@@ -1,7 +1,9 @@
+using _4Bike.Areas.Identity.Data;
 using _4Bike.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,9 +29,15 @@ namespace _4Bike
         {
             services.AddMvc();
             services.AddControllersWithViews();
+            services.AddRazorPages();
+
+            services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+                   .AddDefaultUI()
+                   .AddDefaultTokenProviders()
+                   .AddEntityFrameworkStores<AuthDbContext>();
 
             services.AddDbContext<ProductDbContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("DefualtConnection")));
+                options => options.UseSqlServer(Configuration.GetConnectionString("ProductDbContextConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,12 +59,18 @@ namespace _4Bike
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                    name: "Role",
+                    pattern: "{action}",
+                    defaults: new { controller = "Role" });
+                endpoints.MapRazorPages();
             });
         }
     }
