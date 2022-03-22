@@ -15,6 +15,8 @@ namespace _4Bike.Data
 
         public DbSet<Product_Bike> Bikes { get; set; }
         public DbSet<Product_Manufacturer> Manufacturers { get; set; }
+        public DbSet<Product_Order> Orders { get; set; }
+        public DbSet<Product_BikeOrder> BikeOrders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -31,6 +33,20 @@ namespace _4Bike.Data
                 .HasOne<Product_Manufacturer>(pb => pb.Manufacturer)
                 .WithMany(pm => pm.ManufacturerProducts)
                 .HasForeignKey(pb => pb.ManufacturerID);
+
+            modelBuilder.Entity<Product_Order>().HasKey(po => new { po.OrderID });
+
+            modelBuilder.Entity<Product_BikeOrder>().HasKey(pbo => new { pbo.BikeOrderID });
+
+            modelBuilder.Entity<Product_BikeOrder>()
+                .HasOne<Product_Bike>(pbo => pbo.BikeOrderBike)
+                .WithMany(pb => pb.Orders)
+                .HasForeignKey(pbo => pbo.BikeOrderBikeID);
+
+            modelBuilder.Entity<Product_BikeOrder>()
+                .HasOne<Product_Order>(pbo => pbo.BikeOrderOrder)
+                .WithMany(po => po.Bikes)
+                .HasForeignKey(pbo => pbo.BikeOrderOrderID);
         }
     }
 }
