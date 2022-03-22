@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using _4Bike.Areas.Identity.Data;
+using _4Bike.Models.Products;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -15,10 +16,42 @@ namespace _4Bike.Data
             : base(options)
         {
         }
+        public DbSet<Product_Bike> Bikes { get; set; }
+        public DbSet<Product_Manufacturer> Manufacturers { get; set; }
+        public DbSet<Product_Order> Orders { get; set; }
+        public DbSet<Product_BikeOrder> BikeOrders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.Entity<Product_Manufacturer>().HasKey(pm => new { pm.ManufacturerID });
+
+            builder.Entity<Product_Manufacturer>()
+                .HasMany<Product_Bike>(pm => pm.ManufacturerProducts)
+                .WithOne(pb => pb.Manufacturer)
+                .HasForeignKey(pm => pm.BikeID);
+
+            builder.Entity<Product_Bike>().HasKey(pb => new { pb.BikeID });
+
+            builder.Entity<Product_Bike>()
+                .HasOne<Product_Manufacturer>(pb => pb.Manufacturer)
+                .WithMany(pm => pm.ManufacturerProducts)
+                .HasForeignKey(pb => pb.ManufacturerID);
+
+            builder.Entity<Product_Order>().HasKey(po => new { po.OrderID });
+
+            builder.Entity<Product_BikeOrder>().HasKey(pbo => new { pbo.BikeOrderID });
+
+            builder.Entity<Product_BikeOrder>()
+                .HasOne<Product_Bike>(pbo => pbo.BikeOrderBike)
+                .WithMany(pb => pb.Orders)
+                .HasForeignKey(pbo => pbo.BikeOrderBikeID);
+
+            builder.Entity<Product_BikeOrder>()
+                .HasOne<Product_Order>(pbo => pbo.BikeOrderOrder)
+                .WithMany(po => po.Bikes)
+                .HasForeignKey(pbo => pbo.BikeOrderOrderID);
+            
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);

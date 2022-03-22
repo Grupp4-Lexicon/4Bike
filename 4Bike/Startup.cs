@@ -36,8 +36,7 @@ namespace _4Bike
                    .AddDefaultTokenProviders()
                    .AddEntityFrameworkStores<AuthDbContext>();
 
-            services.AddDbContext<ProductDbContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("ProductDbContextConnection")));
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

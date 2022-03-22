@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace _4Bike.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Initial_Create : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -41,11 +41,39 @@ namespace _4Bike.Migrations
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(100)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(100)", nullable: true)
+                    LastName = table.Column<string>(type: "nvarchar(100)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(100)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Manufacturers",
+                columns: table => new
+                {
+                    ManufacturerID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ManufacturerName = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Manufacturers", x => x.ManufacturerID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    OrderID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderDate = table.Column<DateTime>(nullable: false),
+                    OrderHandelCost = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.OrderID);
                 });
 
             migrationBuilder.CreateTable(
@@ -94,8 +122,8 @@ namespace _4Bike.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -139,8 +167,8 @@ namespace _4Bike.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -153,6 +181,75 @@ namespace _4Bike.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Bikes",
+                columns: table => new
+                {
+                    BikeID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BikePrice = table.Column<int>(nullable: false),
+                    BikeName = table.Column<string>(nullable: true),
+                    BikePicNav = table.Column<string>(nullable: true),
+                    ManufacturerID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bikes", x => x.BikeID);
+                    table.ForeignKey(
+                        name: "FK_Bikes_Manufacturers_ManufacturerID",
+                        column: x => x.ManufacturerID,
+                        principalTable: "Manufacturers",
+                        principalColumn: "ManufacturerID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BikeOrders",
+                columns: table => new
+                {
+                    BikeOrderID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BikeOrderQuantity = table.Column<int>(nullable: false),
+                    BikeOrderBikeID = table.Column<int>(nullable: false),
+                    BikeOrderOrderID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BikeOrders", x => x.BikeOrderID);
+                    table.ForeignKey(
+                        name: "FK_BikeOrders_Bikes_BikeOrderBikeID",
+                        column: x => x.BikeOrderBikeID,
+                        principalTable: "Bikes",
+                        principalColumn: "BikeID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BikeOrders_Orders_BikeOrderOrderID",
+                        column: x => x.BikeOrderOrderID,
+                        principalTable: "Orders",
+                        principalColumn: "OrderID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "42c10cb8-037a-4ebc-9298-9764363b7804", "ddb9417b-5582-4bfa-987a-1176b73939e0", "Admin", "ADMIN" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "59be7a65-239e-423a-a490-2a48f92e6caa", "aefde569-f1be-4add-b3fa-b02db4b6a200", "User", "USER" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "59be7a65-239e-423a-a490-2a48f92e6caa", 0, "Testgatan 20", "cbc6661e-dd2e-4b71-8cd3-76d07236f1cf", "admin@admin.com", false, "Admin", "Adminsson", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAENF5kOW+ONijaTsmgfLgpPtR4rDwvR3mZ2jp2zqXub2SPXec0qm0OudlZWpXldPwaQ==", null, false, "8b6a537c-a24d-4898-bdd5-d8e1153f5e98", false, "admin@admin.com" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "UserId", "RoleId" },
+                values: new object[] { "59be7a65-239e-423a-a490-2a48f92e6caa", "42c10cb8-037a-4ebc-9298-9764363b7804" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -192,6 +289,21 @@ namespace _4Bike.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BikeOrders_BikeOrderBikeID",
+                table: "BikeOrders",
+                column: "BikeOrderBikeID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BikeOrders_BikeOrderOrderID",
+                table: "BikeOrders",
+                column: "BikeOrderOrderID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bikes_ManufacturerID",
+                table: "Bikes",
+                column: "ManufacturerID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -212,10 +324,22 @@ namespace _4Bike.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "BikeOrders");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Bikes");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
+
+            migrationBuilder.DropTable(
+                name: "Manufacturers");
         }
     }
 }
