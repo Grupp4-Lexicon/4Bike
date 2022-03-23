@@ -1,0 +1,34 @@
+﻿@model IEnumerable<_4Bike.Models.Products.Product_Bike>
+@{
+    ViewData["Title"] = "List of Bike";
+}
+
+
+<h5>The list of Bikes in the Database</h5>
+
+<p>
+    <a asp-action="AddBike">Add Bike</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Image</th>
+            <th>ManufacturerID</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.BikeID</td>
+                <td>@item.BikeName</td>
+                <td>@item.BikePrice</td>
+                <td>@item.BikePicNav</td>
+            </tr>
+        }
+
+    </tbody>
+</table>
