@@ -81,12 +81,8 @@ namespace _4Bike.Controllers
                 {
                     BikeName = bike.BikeName,
                     BikePrice = bike.Price,
-                    BikePicNav = bike.Pic,
-                    Manufacturer = manufacturerID
-                   
-
                     BikePicNav = filePath,
-                    ManufacturerID = 1
+                    Manufacturer = manufacturerID
                 };
 
                 _context.Bikes.Add(bikeProduct);
