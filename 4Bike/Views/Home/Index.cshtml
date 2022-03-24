@@ -1,18 +1,38 @@
-﻿@using _4Bike.Models.ViewModels
-@model IEnumerable<OrderView>
+﻿@using Microsoft.AspNetCore.Identity
+@using _4Bike.Areas.Identity.Data
+@using _4Bike.Models.Products
+<!--model IEnumerable<OrderView>-->
+@model IEnumerable<Product_Bike>
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>@ViewBag.Mes</p>
-    @foreach (var item in Model)
+                      <div class="text-center">
+                          <h1 class="display-4">Welcome</h1>
+                          <p>@ViewBag.Mes</p>
+                         <!-- foreach (var item in Model)
    {
-       <p>@item.BikeName</p>
-       <p>@item.Price</p>
-       <p>@item.OrderDate</p>
-       <p>@item.Quantity</p>
+                          <p>item.BikeName</p>
+                          <p>item.Price</p>
+                          <p>item.OrderDate</p>
+                          <p>item.Quantity</p>
+   }-->
+   @foreach (var item in Model)
+   {
+                          <p>@item.BikeName</p>
+                          <p>@item.BikePrice</p>
    }
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+                          
+                          @using (Html.BeginForm("AddToShopingKart", "Home", FormMethod.Post)){
+                          <input type="number" name="bID" placeholder="bike">
+                          <input type="submit" value="giveLanguage">
+                          }
+                          @using (Html.BeginForm("AddOrder", "Home", FormMethod.Post)){
+                              <input type="datetime" name="OrderDate">
+                          <input type="number" name="OrderHandelCost" placeholder="bike">
+                          <input type="submit" value="giveLanguage">
+                          }
+
+                          <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+                      </div>
