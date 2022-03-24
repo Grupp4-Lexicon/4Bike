@@ -1,4 +1,5 @@
 ﻿using _4Bike.Areas.Identity.Data;
+using _4Bike.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -23,6 +24,45 @@ namespace _4Bike.Controllers
         public IActionResult Index()
         {
             return View(_roleManager.Roles);
+        }
+
+        public IActionResult UserList()
+        {
+            return View(_userManager.Users.ToList());
+        }
+
+        public async Task<IActionResult> EditUser(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+
+            return View(user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUser(string id, EditUserViewModel viewModel)
+        {
+            ApplicationUser targetUser = await _userManager.FindByIdAsync(id);
+
+            if (ModelState.IsValid)
+            {
+                targetUser.Email = viewModel.Email;
+                targetUser.FirstName = viewModel.FirstName;
+                targetUser.LastName = viewModel.LastName;
+                targetUser.Address = viewModel.Address;
+
+                await _userManager.UpdateAsync(targetUser);
+
+                if(targetUser != null)
+                {
+                    return RedirectToAction(nameof(UserList), "Role");
+                }
+
+                ModelState.AddModelError("Storage", "Failed to save user information");
+
+            }
+
+            return View();
+
         }
 
         public IActionResult Create()
