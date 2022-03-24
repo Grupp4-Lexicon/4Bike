@@ -1,5 +1,6 @@
 ﻿using _4Bike.Areas.Identity.Data;
 using _4Bike.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace _4Bike.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class RoleController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -94,6 +96,10 @@ namespace _4Bike.Controllers
         [HttpPost]
         public async Task<IActionResult> AddUserToRole(string role, string user)
         {
+
+            ViewData["Roles"] = new SelectList(_roleManager.Roles, "Name", "Name");
+            ViewData["Users"] = new SelectList(_userManager.Users, "Id", "UserName");
+
             var _user = await _userManager.FindByIdAsync(user);
             IdentityResult result = await _userManager.AddToRoleAsync(_user, role);
 
@@ -105,9 +111,9 @@ namespace _4Bike.Controllers
 
                 }
 
+                ModelState.AddModelError("duplicate_entry", "User already has that role!");
 
             }
-
 
             return View();
         }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _4Bike.Data;
 
 namespace _4Bike.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    partial class AuthDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220324105242_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,15 +50,15 @@ namespace _4Bike.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a3fe74a4-ed94-4164-b954-2f2bc5c56c69",
-                            ConcurrencyStamp = "7691f131-2870-45d4-8bf6-aea00d51120a",
+                            Id = "d181c406-1681-46a9-994d-ad26679ba919",
+                            ConcurrencyStamp = "6f87ea4e-1dfd-4c4e-9ba0-16e6db95c1f6",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "d070696b-bc00-4c1e-841d-42929646407a",
-                            ConcurrencyStamp = "eaf24834-ee0d-4e95-9518-28949f2f9e02",
+                            Id = "89b5413b-0e6b-485f-89f6-2f2a4c40ced1",
+                            ConcurrencyStamp = "34d44e4f-082a-4a45-bf9c-ce830f749ffc",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -149,8 +151,8 @@ namespace _4Bike.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "d070696b-bc00-4c1e-841d-42929646407a",
-                            RoleId = "a3fe74a4-ed94-4164-b954-2f2bc5c56c69"
+                            UserId = "89b5413b-0e6b-485f-89f6-2f2a4c40ced1",
+                            RoleId = "d181c406-1681-46a9-994d-ad26679ba919"
                         });
                 });
 
@@ -249,10 +251,10 @@ namespace _4Bike.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d070696b-bc00-4c1e-841d-42929646407a",
+                            Id = "89b5413b-0e6b-485f-89f6-2f2a4c40ced1",
                             AccessFailedCount = 0,
                             Address = "Testgatan 20",
-                            ConcurrencyStamp = "507f2983-d7f9-450a-806c-5045fc6b108c",
+                            ConcurrencyStamp = "4b3bf00b-25fc-4f63-9316-4ebd9a23423d",
                             Email = "admin@admin.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -260,9 +262,9 @@ namespace _4Bike.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIP6ROad0xD3sBoy+qRzqkt48tek4DzsCCLWaL/043Jq9u5cYdhLN2FqdsgxCZUvBg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFX51UBbUcm8e8Wwj9rgjhZNEI8t4stz63nO3wouK45h1Od6jRGp8sLUuU4FqwM4ow==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "09deec4d-4c87-433c-ae6d-3f598a73a990",
+                            SecurityStamp = "aa041d55-8734-450b-aa10-a88dc3e4dfd8",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
