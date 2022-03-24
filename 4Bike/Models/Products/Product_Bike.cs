@@ -1,5 +1,9 @@
 ﻿using System;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -16,8 +20,8 @@ namespace _4Bike.Models.Products
 
         public string BikeName { get; set; }
 
+        [DisplayName("Upload Image")]
         public string BikePicNav { get; set; }
-
 
         public int ManufacturerID { get; set; }
        

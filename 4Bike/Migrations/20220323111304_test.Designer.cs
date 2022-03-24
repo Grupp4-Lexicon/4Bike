@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _4Bike.Data;
 
 namespace _4Bike.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    partial class AuthDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220323111304_test")]
+    partial class test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,15 +50,15 @@ namespace _4Bike.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a3fe74a4-ed94-4164-b954-2f2bc5c56c69",
-                            ConcurrencyStamp = "7691f131-2870-45d4-8bf6-aea00d51120a",
+                            Id = "3ceb7862-66fb-447d-a0d8-d0c144648da5",
+                            ConcurrencyStamp = "94d2bf48-f0ad-422d-bbc3-dcd5eafb758c",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "d070696b-bc00-4c1e-841d-42929646407a",
-                            ConcurrencyStamp = "eaf24834-ee0d-4e95-9518-28949f2f9e02",
+                            Id = "9dcab609-da1c-4f76-b467-28617ad8534a",
+                            ConcurrencyStamp = "3a8a42dd-871a-4dcb-b903-69cec034f799",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -149,8 +151,8 @@ namespace _4Bike.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "d070696b-bc00-4c1e-841d-42929646407a",
-                            RoleId = "a3fe74a4-ed94-4164-b954-2f2bc5c56c69"
+                            UserId = "9dcab609-da1c-4f76-b467-28617ad8534a",
+                            RoleId = "3ceb7862-66fb-447d-a0d8-d0c144648da5"
                         });
                 });
 
@@ -249,10 +251,10 @@ namespace _4Bike.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d070696b-bc00-4c1e-841d-42929646407a",
+                            Id = "9dcab609-da1c-4f76-b467-28617ad8534a",
                             AccessFailedCount = 0,
                             Address = "Testgatan 20",
-                            ConcurrencyStamp = "507f2983-d7f9-450a-806c-5045fc6b108c",
+                            ConcurrencyStamp = "460c60c2-9866-4c73-8686-97bf5b455c0b",
                             Email = "admin@admin.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -260,9 +262,9 @@ namespace _4Bike.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIP6ROad0xD3sBoy+qRzqkt48tek4DzsCCLWaL/043Jq9u5cYdhLN2FqdsgxCZUvBg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHRmPxlV6HBjnYqOh+CASTHeuC28DpPXzTU1sm/ltuVmgMnc6La/zAQPGIHsI4LgsA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "09deec4d-4c87-433c-ae6d-3f598a73a990",
+                            SecurityStamp = "3394ac6e-ccf6-49c1-81cb-827d7aff7084",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
@@ -341,18 +343,16 @@ namespace _4Bike.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("OrderHandelCost")
                         .HasColumnType("int");
 
-                    b.HasKey("OrderID");
+                    b.Property<string>("OrderUserID")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("Id");
+                    b.HasKey("OrderID");
 
                     b.ToTable("Orders");
                 });
@@ -430,13 +430,6 @@ namespace _4Bike.Migrations
                         .HasForeignKey("BikeOrderOrderID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("_4Bike.Models.Products.Product_Order", b =>
-                {
-                    b.HasOne("_4Bike.Areas.Identity.Data.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("Id");
                 });
 #pragma warning restore 612, 618
         }
