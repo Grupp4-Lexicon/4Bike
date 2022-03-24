@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using _4Bike.Models.Products;
 using _4Bike.Models.ViewModels;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace _4Bike.Controllers
 {
@@ -26,7 +26,9 @@ namespace _4Bike.Controllers
 
         public IActionResult ListBikes()
         {
-            var bikesInfo = _context.Bikes.ToList();
+            var bikesInfo = _context.Bikes.
+                Include(a => a.Manufacturer)
+                .ToList();
 
             return View(bikesInfo);
         }
@@ -43,19 +45,21 @@ namespace _4Bike.Controllers
         {
             if (ModelState.IsValid)
             {
-                Product_Manufacturer manufacturer = _context.Manufacturers.FirstOrDefault(k => k.ManufacturerID == bike.ManufacturerID);
+                Product_Manufacturer manufacturerID = _context.Manufacturers.FirstOrDefault(a => a.ManufacturerID == bike.ManufacturerID);
+                
                 Product_Bike bikeProduct = new Product_Bike
                 {
                     BikeName = bike.BikeName,
                     BikePrice = bike.Price,
                     BikePicNav = bike.Pic,
-                    ManufacturerID = 1
+                    Manufacturer = manufacturerID
+                   
                 };
 
                 _context.Bikes.Add(bikeProduct);
                 _context.SaveChanges();
 
-                Product_Bike insertedBike = _context.Bikes.FirstOrDefault(a => a.BikeName == bikeProduct.BikeName);
+                
             }
             return RedirectToAction("ListBikes");
         }

@@ -11,6 +11,8 @@ namespace _4Bike.Models.ViewModels
         public int Price { get; set; }
         public string Pic { get; set; }
         public int ManufacturerID { get; set; }
+        public string ManufacturerName { get; set; }
+        
 
     }
 }
