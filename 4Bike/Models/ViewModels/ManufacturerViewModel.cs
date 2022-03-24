@@ -10,7 +10,7 @@ namespace _4Bike.Models.ViewModels
     public class ManufacturerViewModel
     {
         public string Name { get; set; }
-
+        public int ManufacturerID { get; set;  }
 
     }
 }
