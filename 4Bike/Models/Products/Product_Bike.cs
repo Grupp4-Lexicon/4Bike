@@ -24,6 +24,7 @@ namespace _4Bike.Models.Products
         public string BikePicNav { get; set; }
 
         public int ManufacturerID { get; set; }
+       
         public Product_Manufacturer Manufacturer { get; set; }
 
         public ICollection<Product_BikeOrder> Orders { get; set; }
