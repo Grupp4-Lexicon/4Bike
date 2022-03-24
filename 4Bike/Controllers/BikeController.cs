@@ -34,6 +34,7 @@ namespace _4Bike.Controllers
         public IActionResult AddBike()
         {
             ViewBag.Bikes = _context.Bikes.ToList();
+            ViewBag.Manufacturers = _context.Manufacturers.ToList();
             return View();
         }
 
@@ -42,13 +43,13 @@ namespace _4Bike.Controllers
         {
             if (ModelState.IsValid)
             {
+                Product_Manufacturer manufacturer = _context.Manufacturers.FirstOrDefault(k => k.ManufacturerID == bike.ManufacturerID);
                 Product_Bike bikeProduct = new Product_Bike
                 {
                     BikeName = bike.BikeName,
                     BikePrice = bike.Price,
                     BikePicNav = bike.Pic,
-
-
+                    ManufacturerID = 1
                 };
 
                 _context.Bikes.Add(bikeProduct);
