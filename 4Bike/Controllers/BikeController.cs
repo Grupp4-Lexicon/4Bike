@@ -92,5 +92,39 @@ namespace _4Bike.Controllers
             }
             return RedirectToAction("ListBikes");
         }
+
+        public IActionResult EditBike(int id)
+        {
+            var bikeToEdit = _context.Bikes.Where(a => a.BikeID == id).Include(a => a.Manufacturer).FirstOrDefault();
+            List<Product_Manufacturer> manufacturerList = _context.Manufacturers.ToList();
+
+
+            
+            ViewBag.Manufactures = manufacturerList.Select(a => new ManufacturerViewModel { ManufacturerID = a.ManufacturerID }).ToList();
+           
+            _context.Bikes.Where(a => a.BikeID == id).FirstOrDefault();
+
+            return View(bikeToEdit);
+
+        }
+
+        [HttpPost]
+        public IActionResult EditBike(Product_Bike eBike)
+        {
+            _context.Bikes.Update(eBike);
+            _context.SaveChanges();
+            return RedirectToAction("ListBikes");
+        }
+
+        public IActionResult DeleteBike(int id)
+        {
+
+            var bikeToDelete = _context.Bikes.Find(id);
+            _context.Bikes.Remove(bikeToDelete);
+            _context.SaveChanges();
+
+            return RedirectToAction("ListBikes");
+        }
+
     }
 }

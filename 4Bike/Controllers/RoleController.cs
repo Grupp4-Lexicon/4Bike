@@ -101,6 +101,13 @@ namespace _4Bike.Controllers
             ViewData["Users"] = new SelectList(_userManager.Users, "Id", "UserName");
 
             var _user = await _userManager.FindByIdAsync(user);
+
+
+            //Remove user's roles to prevent multiple/duplicate roles
+            var rolesToRemove = await _userManager.GetRolesAsync(_user);
+            await _userManager.RemoveFromRolesAsync(_user, rolesToRemove.ToArray());
+
+            //Add new role to user
             IdentityResult result = await _userManager.AddToRoleAsync(_user, role);
 
             if (ModelState.IsValid)
@@ -108,10 +115,9 @@ namespace _4Bike.Controllers
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index");
-
                 }
 
-                ModelState.AddModelError("duplicate_entry", "User already has that role!");
+                ModelState.AddModelError("Error", "Something went wrong, try again.");
 
             }
 
