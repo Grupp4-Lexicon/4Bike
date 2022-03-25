@@ -55,7 +55,7 @@ namespace _4Bike.Controllers
         [HttpPost]
         public void AddToShopingKart(int bID)
         {
-            string sId =bID.ToString();
+            string sId = bID.ToString();
             if (Request.Cookies["ShopingId"] != null)
             {
                 sId = Request.Cookies["ShopingId"] + "," + bID;                
