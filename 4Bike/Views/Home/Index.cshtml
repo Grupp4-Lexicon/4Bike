@@ -57,9 +57,10 @@
 </div>
 
 <div class="text-center">
-                   <div class="text-center">
+                  
+                      <div class="text-center">
                           <h1 class="display-4">Welcome</h1>
-                          <p>@ViewBag.Mes</p>
+                          <p>@ViewBag.Mes </p>
                          <!-- foreach (var item in Model)
    {
                           <p>item.BikeName</p>
@@ -70,16 +71,22 @@
    @foreach (var item in Model)
    {
                           <p>@item.BikeName</p>
-                          <p>@item.BikePrice</p>
+                          <p>@item.Price</p>
+                          <p>@item.ManufacturerName</p>
+                          <p>@item.Quantity</p>
+                          <p>@item.TotalPrice</p>
+                          <img src="@item.PicPath" />
    }
-                          
+                          <h3>@Model.Sum(x => x.TotalPrice)</h3>
                           @using (Html.BeginForm("AddToShopingKart", "Home", FormMethod.Post)){
                           <input type="number" name="bID" placeholder="bike">
-                          <input type="submit" value="giveLanguage">
+                          <input type="submit" value="add to shoping kart">
                           }
                           @using (Html.BeginForm("AddOrder", "Home", FormMethod.Post)){
-                              <input type="datetime" name="OrderDate">
-                          <input type="number" name="OrderHandelCost" placeholder="bike">
-                          <input type="submit" value="giveLanguage">
+                          <input type="submit" value="addorder">
+                          }
+                          @using (Html.BeginForm("RemoveFromShopingKart", "Home", FormMethod.Post)){
+                              <input type="number" name="bID" placeholder="bike">
+                          <input type="submit" value="delet kart thing">
                           }
 </div>
