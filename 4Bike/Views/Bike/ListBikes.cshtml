@@ -17,20 +17,24 @@
             <th>Price</th>
             <th>Image</th>
             <th>ManufacturerID</th>
-            <th>ManufacturerName</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>@item.BikeID</td>
-                <td>@item.BikeName</td>
-                <td>@item.BikePrice</td>
-                <td>@item.BikePicNav</td>
-                <td>@item.ManufacturerID</td>
-                @*<td>@item.ManufacturerName</td>*@
-            </tr>
+        <tr>
+            <td>@item.BikeID</td>
+            <td>@item.BikeName</td>
+            <td>@item.BikePrice</td>
+            <td>@item.BikePicNav</td>
+            <td>@item.ManufacturerID</td>
+            @*<td>@item.ManufacturerName</td>*@
+
+
+            <td><a asp-action="DeleteBike" asp-route-id=@item.BikeID>Delete</a></td>
+            <td><a asp-action="EditBike" asp-route-id=@item.BikeID>Edit</a></td>
+        </tr>
         }
 
     </tbody>
