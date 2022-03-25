@@ -1,4 +1,10 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@using _4Bike.Areas.Identity.Data
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
     if (ViewData.TryGetValue("ParentLayout", out var parentLayout))
     {
         Layout = (string)parentLayout;
@@ -11,18 +17,40 @@
 
 <h2>Manage your account</h2>
 
-<div>
-    <h4>Change your account settings</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-3">
-            <partial name="_ManageNav" />
-        </div>
-        <div class="col-md-9">
-            @RenderBody()
+<div class="row">
+
+    <div class="col-md-8">
+        <h4>Change your account settings</h4>
+        <hr />
+        <div class="row">
+            <div class="col">
+                <partial name="_ManageNav" />
+            </div>
+            <div class="col">
+                @RenderBody()
+            </div>
         </div>
     </div>
+
+    <div class="col-md-2 bg-light text-center">
+
+        <div class="text-center">
+            <i class="fas fa-user-circle fa-9x text-secondary"></i>
+
+            <p>Welcome, @UserManager.GetUserName(User)!</p>
+        </div>
+        
+
+        <nav class="flex-column">
+            <button type="button" class="btn btn-outline-secondary btn-lg btn-block">Edit orders</button>
+            <button type="button" class="btn btn-outline-secondary btn-lg btn-block">Receipts</button>
+            <button type="button" class="btn btn-outline-secondary btn-lg btn-block">History</button>
+            <button type="button" class="btn btn-outline-secondary btn-lg btn-block">Logout</button>
+        </nav>
+
+    </div>
 </div>
+
 
 @section Scripts {
     @RenderSection("Scripts", required: false)

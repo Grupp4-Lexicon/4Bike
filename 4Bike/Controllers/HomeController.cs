@@ -12,6 +12,7 @@ using _4Bike.Models.Products;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using _4Bike.Areas.Identity.Data;
+using System.Text.Json;
 
 namespace _4Bike.Controllers
 {
@@ -31,23 +32,28 @@ namespace _4Bike.Controllers
 
         public IActionResult Index()
         {
-           List<OrderView> ordView =( from o in _context.Orders.ToList()
+           
+            List<OrderView> ordView =( from o in _context.Orders.ToList()
                     join bo in _context.BikeOrders.ToList() on o.OrderID equals bo.BikeOrderOrderID
                     join b in _context.Bikes.ToList() on bo.BikeOrderBikeID equals b.BikeID
-                          //join u in _context.Users.ToList() on o.Id equals u.Id
-                          where o.OrderID==3
+                          join u in _context.Users.ToList() on o.Id equals u.Id
+                          where o.OrderID==4
                           select new OrderView {BikeName = b.BikeName, Quantity = bo.BikeOrderQuantity, OrderDate = o.OrderDate, Price = b.BikePrice }).ToList();
 
-            List<Product_Bike> bikes = new List<Product_Bike>();
-
+            List<ShopingcartView> bikes = new List<ShopingcartView>();
+            
             if (Request.Cookies["ShopingId"] != null)
             {
-                int[] sArr = Request.Cookies["ShopingId"].Split(',').Select(int.Parse).ToArray();
-                foreach (int id in sArr.Distinct().ToArray())
+                List<int> sArr = JsonSerializer.Deserialize<List<string>>(Request.Cookies["ShopingId"]).Select(int.Parse).ToList();
+                foreach (int id in sArr.Distinct().ToList())
                 {
-
+                    
                     int count = sArr.Count(x => x == id);
-                    bikes.Add(_context.Bikes.Find(id));
+                    ShopingcartView shopingcart = (from b in _context.Bikes.ToList()
+                                        join m in _context.Manufacturers.ToList() on b.ManufacturerID equals m.ManufacturerID
+                                        where b.BikeID == id
+                                        select new ShopingcartView{ BikeName = b.BikeName, ManufacturerID = m.ManufacturerID, Price = b.BikePrice, ManufacturerName = m.ManufacturerName, Quantity=count, PicPath = b.BikePicNav, TotalPrice = count*b.BikePrice}).SingleOrDefault();
+                    bikes.Add(shopingcart);
                 }
             }
             return View(bikes);
@@ -58,10 +64,24 @@ namespace _4Bike.Controllers
             string sId = bID.ToString();
             if (Request.Cookies["ShopingId"] != null)
             {
-                sId = Request.Cookies["ShopingId"] + "," + bID;                
+                sId = JsonSerializer.Deserialize<List<string>>(Request.Cookies["ShopingId"]);                
             }
-            cookie.Expires = DateTime.Now.AddMinutes(10);
-            Response.Cookies.Append("ShopingId", sId, cookie);
+            sId.Add(bID.ToString());
+            cookie.Expires = DateTime.Now.AddMinutes(2);
+            Response.Cookies.Append("ShopingId", JsonSerializer.Serialize(sId), cookie);
+        }
+        [HttpPost]
+        public void RemoveFromShopingKart(int bID)
+        {
+            List<string> sArr = JsonSerializer.Deserialize<List<string>>(Request.Cookies["ShopingId"]);
+            //Request.Cookies["ShopingId"];
+            sArr.Remove(bID.ToString());
+            
+            
+                
+                Response.Cookies.Append("ShopingId", JsonSerializer.Serialize(sArr), cookie);
+            
+            
         }
         [HttpPost]
         public IActionResult AddOrder()
@@ -73,8 +93,9 @@ namespace _4Bike.Controllers
                 _context.Orders.Add(order);
                 _context.SaveChanges();
 
-               int[] sArr = Request.Cookies["ShopingId"].Split(',').Select(int.Parse).ToArray();
-                foreach (int id in sArr.Distinct().ToArray()) {
+                List<int> sArr = JsonSerializer.Deserialize<List<string>>(Request.Cookies["ShopingId"]).Select(int.Parse).ToList();
+
+                foreach (int id in sArr.Distinct().ToList()) {
                     int count = sArr.Count(x => x == id);
 
                     Product_BikeOrder pb = new Product_BikeOrder() { BikeOrderOrderID=order.OrderID, BikeOrderBikeID=id, BikeOrderQuantity=count};
@@ -83,6 +104,20 @@ namespace _4Bike.Controllers
                 _context.SaveChanges();
                 Response.Cookies.Delete("ShopingId");
             }
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public IActionResult RemoveOrder(int orderID)
+        {
+            _context.Orders.Remove(_context.Orders.Find(orderID));
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public IActionResult RemoveOrder(Product_BikeOrder bikeOrder)
+        {
+            _context.BikeOrders.Update(bikeOrder);
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
         public IActionResult Privacy()
