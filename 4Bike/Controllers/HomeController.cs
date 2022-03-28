@@ -13,12 +13,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using _4Bike.Areas.Identity.Data;
 using System.Text.Json;
+using _4Bike.Services;
 
 namespace _4Bike.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly  AuthDbContext _context;
+        private readonly OrderService orderService;
+        private readonly AuthDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         public static CookieOptions cookie = new CookieOptions();
@@ -28,6 +30,7 @@ namespace _4Bike.Controllers
             _context = authDbContext;
             _userManager = userManager;
             _signInManager = signInManager;
+            orderService = new OrderService(authDbContext, userManager, signInManager);
         }
 
         public IActionResult Index()
@@ -91,20 +94,8 @@ namespace _4Bike.Controllers
         {
             if (_signInManager.IsSignedIn(HttpContext.User) && Request.Cookies["ShopingId"] != null)
             {
-
-                Product_Order order = new Product_Order() { OrderDate = DateTime.Now, OrderHandelCost = 11, Id = _userManager.GetUserId(HttpContext.User) };
-                _context.Orders.Add(order);
-                _context.SaveChanges();
-
                 List<int> sArr = JsonSerializer.Deserialize<List<string>>(Request.Cookies["ShopingId"]).Select(int.Parse).ToList();
-
-                foreach (int id in sArr.Distinct().ToList()) {
-                    int count = sArr.Count(x => x == id);
-
-                    Product_BikeOrder pb = new Product_BikeOrder() { BikeOrderOrderID=order.OrderID, BikeOrderBikeID=id, BikeOrderQuantity=count};
-                    _context.BikeOrders.Add(pb);
-                }
-                _context.SaveChanges();
+                orderService.AddOrder(HttpContext.User, sArr);
                 Response.Cookies.Delete("ShopingId");
             }
             return RedirectToAction("Index");
