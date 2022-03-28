@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace _4Bike.Models.ViewModels
 {
@@ -9,6 +10,8 @@ namespace _4Bike.Models.ViewModels
         public int Quantity { get; set; }
         public int TotalCost { get; set; }
         public DateTime OrderDate { get; set; }
+
+        public List<OrderView> OrderList = new List<OrderView>();
 
 
 

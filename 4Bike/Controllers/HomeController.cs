@@ -58,10 +58,11 @@ namespace _4Bike.Controllers
             }
             return View(bikes);
         }
+
         [HttpPost]
         public void AddToShopingKart(int bID)
         {
-            string sId = bID.ToString();
+            List<string> sId = new List<string>();
             if (Request.Cookies["ShopingId"] != null)
             {
                 sId = JsonSerializer.Deserialize<List<string>>(Request.Cookies["ShopingId"]);                
@@ -70,6 +71,7 @@ namespace _4Bike.Controllers
             cookie.Expires = DateTime.Now.AddMinutes(2);
             Response.Cookies.Append("ShopingId", JsonSerializer.Serialize(sId), cookie);
         }
+
         [HttpPost]
         public void RemoveFromShopingKart(int bID)
         {
@@ -83,6 +85,7 @@ namespace _4Bike.Controllers
             
             
         }
+
         [HttpPost]
         public IActionResult AddOrder()
         {
@@ -106,6 +109,7 @@ namespace _4Bike.Controllers
             }
             return RedirectToAction("Index");
         }
+
         [HttpPost]
         public IActionResult RemoveOrder(int orderID)
         {
@@ -113,6 +117,7 @@ namespace _4Bike.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
+
         [HttpPost]
         public IActionResult RemoveOrder(Product_BikeOrder bikeOrder)
         {
@@ -120,6 +125,7 @@ namespace _4Bike.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
+
         public IActionResult Privacy()
         {
             return View();
