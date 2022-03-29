@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using _4Bike.Areas.Identity.Data;
+using _4Bike.Models;
 using _4Bike.Models.Products;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -51,6 +52,7 @@ namespace _4Bike.Data
                 .HasOne<Product_Order>(pbo => pbo.BikeOrderOrder)
                 .WithMany(po => po.Bikes)
                 .HasForeignKey(pbo => pbo.BikeOrderOrderID);
+
             
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.

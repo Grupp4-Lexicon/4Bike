@@ -1,5 +1,6 @@
 ﻿using _4Bike.Areas.Identity.Data;
 using _4Bike.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace _4Bike.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class RoleController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -94,7 +96,18 @@ namespace _4Bike.Controllers
         [HttpPost]
         public async Task<IActionResult> AddUserToRole(string role, string user)
         {
+
+            ViewData["Roles"] = new SelectList(_roleManager.Roles, "Name", "Name");
+            ViewData["Users"] = new SelectList(_userManager.Users, "Id", "UserName");
+
             var _user = await _userManager.FindByIdAsync(user);
+
+
+            //Remove user's roles to prevent multiple/duplicate roles
+            var rolesToRemove = await _userManager.GetRolesAsync(_user);
+            await _userManager.RemoveFromRolesAsync(_user, rolesToRemove.ToArray());
+
+            //Add new role to user
             IdentityResult result = await _userManager.AddToRoleAsync(_user, role);
 
             if (ModelState.IsValid)
@@ -102,12 +115,11 @@ namespace _4Bike.Controllers
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index");
-
                 }
 
+                ModelState.AddModelError("Error", "Something went wrong, try again.");
 
             }
-
 
             return View();
         }

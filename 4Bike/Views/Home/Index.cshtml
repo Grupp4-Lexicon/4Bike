@@ -1,8 +1,92 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@using _4Bike.Areas.Identity.Data
+@using _4Bike.Models.ViewModels
+@using _4Bike.Models.Products;
+<!--model IEnumerable<OrderView>-->
+@model IEnumerable<ShopingcartView>
+@inject UserManager<ApplicationUser> UserManager
+@{
     ViewData["Title"] = "Home Page";
 }
+<div class="container-fluid">
+    <div id="carouselExampleCaptions" class="carousel slide container-fluid" data-ride="carousel">
+
+        <ol class="carousel-indicators">
+            @{
+                int indicatorId = 0;
+                foreach (Product_Bike bike in ViewBag.Bikes)
+                {
+                    <li data-target="#carouselExampleCaptions" data-slide-to="@indicatorId" class="active">
+                        <img src="@bike.BikePicNav" class="img-thumbnail mx-auto d-block" />
+                    </li>
+                    indicatorId++;
+                }
+            }
+        </ol>
+        <div class="carousel-inner">
+            @{
+                int slideNumber = 0;
+                string activeClassName = "active";
+                foreach (Product_Bike bike in ViewBag.Bikes)
+                {
+                        <div class="carousel-item @activeClassName">
+                            <h5 class="text-dark" style=" text-align :center">@bike.BikeName</h5>
+                            <img src="@bike.BikePicNav" class="img-fluid" style="width:100%;" />
+                            <div class="carousel-caption d-none d-md-block">
+
+                                <p class="text-dark">Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                            </div>
+                            @slideNumber++;
+                            @{activeClassName = "";}
+                        </div>
+                }
+            }
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</div>
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <p>@ViewBag.Mes </p>
+        <!-- foreach (var item in Model)
+        {
+                               <p>item.BikeName</p>
+                               <p>item.Price</p>
+                               <p>item.OrderDate</p>
+                               <p>item.Quantity</p>
+        }-->
+        @foreach (var item in Model)
+        {
+            <p>@item.BikeName</p>
+            <p>@item.Price</p>
+            <p>@item.ManufacturerName</p>
+            <p>@item.Quantity</p>
+            <p>@item.TotalPrice</p>
+            <img src="@item.PicPath" />
+        }
+        <h3>@Model.Sum(x => x.TotalPrice)</h3>
+        @using (Html.BeginForm("AddToShopingKart", "Home", FormMethod.Post))
+        {
+            <input type="number" name="bID" placeholder="bike">
+            <input type="submit" value="add to shoping kart">
+        }
+        @using (Html.BeginForm("AddOrder", "Home", FormMethod.Post))
+        {
+            <input type="submit" value="addorder">
+        }
+        @using (Html.BeginForm("RemoveFromShopingKart", "Home", FormMethod.Post))
+        {
+            <input type="number" name="bID" placeholder="bike">
+            <input type="submit" value="delet kart thing">
+        }
+    </div>

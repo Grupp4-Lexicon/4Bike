@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using _4Bike.Models.Products;
 
 namespace _4Bike.Areas.Identity.Data
 {
@@ -21,5 +22,7 @@ namespace _4Bike.Areas.Identity.Data
         [PersonalData]
         [Column(TypeName = "nvarchar(100)")]
         public string Address { get; set; }
+
+       
     }
 }

@@ -1,0 +1,29 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using _4Bike.Areas.Identity.Data
+@using _4Bike.Models.ViewModels
+<!--model IEnumerable<OrderView>-->
+@model IEnumerable<ShopingcartView>
+@{
+    ViewData["Title"] = "ShopingKart";
+}
+
+<h1>ShopingKart</h1>
+ @foreach (var item in Model)
+   {
+       <div class="container">
+                          <h3>@item.BikeName</h3>
+                          <div class="row">
+                          <img src="@item.PicPath" width="100px"/>
+                          <p class="col-lg-1 ">@item.ManufacturerName</p>
+                          <p class="col-lg-1">@item.Price</p>
+                          
+                          
+                          
+                          
+                          
+                          <p class="col-lg-1">@item.Quantity</p>
+                          <h3 class="col-lg-1">@item.TotalPrice</h3>
+                      </div>
+                      </div>
+   }
+   <h2>@Model.Sum(x => x.TotalPrice)</h2>

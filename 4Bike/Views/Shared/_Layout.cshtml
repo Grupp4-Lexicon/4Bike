@@ -6,17 +6,31 @@
     <title>@ViewData["Title"] - _4Bike</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white">
             <div class="container">
 
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">4Bike</a>
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" asp-controller="Role" asp-action="Index">Roles</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-controller="Role" asp-action="UserList">Manage users</a></li>
+                <ul class="navbar-nav">
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item"><a class="nav-link" asp-controller="Role" asp-action="Index">Roles</a></li>
+                        <li class="nav-item"><a class="nav-link text-dark" asp-area="" asp-controller="Bike" asp-action="ListBikes">List of Bikes</a></li>
+                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Manufacturer" asp-action="Index">List Of Manufacturer</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Role" asp-action="UserList">Manage users</a></li>
+                    }
+                   
                 </ul>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <form class="form-inline my-2 my-sm-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search our products..." aria-label="Search" />
+                        <button class="btn my-2 my-sm-0 text-dark" type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial.cshtml" />
                 </div>
@@ -35,6 +49,7 @@
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="4Bike/Scripts/4Bscript.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
