@@ -56,6 +56,8 @@ namespace _4Bike.Controllers
                     bikes.Add(shopingcart);
                 }
             }
+
+            ViewBag.Bikes = _context.Bikes.ToList();
             return View(bikes);
         }
         [HttpPost]
@@ -75,13 +77,9 @@ namespace _4Bike.Controllers
         {
             List<string> sArr = JsonSerializer.Deserialize<List<string>>(Request.Cookies["ShopingId"]);
             //Request.Cookies["ShopingId"];
-            sArr.Remove(bID.ToString());
-            
-            
+            sArr.Remove(bID.ToString());          
                 
-                Response.Cookies.Append("ShopingId", JsonSerializer.Serialize(sArr), cookie);
-            
-            
+                Response.Cookies.Append("ShopingId", JsonSerializer.Serialize(sArr), cookie);                      
         }
         [HttpPost]
         public IActionResult AddOrder()
