@@ -48,10 +48,9 @@ namespace _4Bike.Controllers
         [HttpPost]
         public IActionResult AddBike(AddBikesViewModel bike)
         {
-            string wwwPath = this.Environment.WebRootPath;
-            string contentPath = this.Environment.ContentRootPath;
+            const string folderToSave = "BikePics";
 
-            string path = Path.Combine(this.Environment.WebRootPath, "BikePics");
+            string path = Path.Combine(Environment.WebRootPath, folderToSave);
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -59,16 +58,14 @@ namespace _4Bike.Controllers
 
             if (ModelState.IsValid)
             {
-
                 Product_Manufacturer manufacturerID = _context.Manufacturers.FirstOrDefault(a => a.ManufacturerID == bike.ManufacturerID);
-                
 
-                string fileName = Path.GetFileNameWithoutExtension(bike.PicFile.FileName);
-                string extension = Path.GetExtension(bike.PicFile.FileName);
-
-                fileName = fileName + DateTime.Now.ToString("yy-hh-mm-ss-fff") + extension;
+                string fileName = Path.GetFileNameWithoutExtension(bike.PicFile.FileName) +
+                                  DateTime.Now.ToString("yy-hh-mm-ss-fff") +
+                                  Path.GetExtension(bike.PicFile.FileName);
 
                 string filePath = Path.Combine(path, fileName);
+                string filePathForDB = Path.Combine(folderToSave, fileName);
 
                 using (FileStream stream = new FileStream(filePath, FileMode.Create))
                 {
@@ -81,15 +78,14 @@ namespace _4Bike.Controllers
                 {
                     BikeName = bike.BikeName,
                     BikePrice = bike.Price,
-                    BikePicNav = filePath,
+                    BikePicNav = filePathForDB,
                     Manufacturer = manufacturerID
                 };
 
                 _context.Bikes.Add(bikeProduct);
                 _context.SaveChanges();
-
-                
             }
+
             return RedirectToAction("ListBikes");
         }
 
