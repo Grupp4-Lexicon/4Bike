@@ -43,5 +43,28 @@ namespace _4Bike.Services
                 }
                 _context.SaveChanges();
         }
+
+        public List<OrderView> ListOrder()
+        {
+            List<OrderView> ordView = (from o in _context.Orders.ToList()
+                                       join bo in _context.BikeOrders.ToList() on o.OrderID equals bo.BikeOrderOrderID
+                                       join b in _context.Bikes.ToList() on bo.BikeOrderBikeID equals b.BikeID
+                                       join u in _context.Users.ToList() on o.Id equals u.Id
+                                       where o.OrderID == 4
+                                       select new OrderView { BikeName = b.BikeName, Quantity = bo.BikeOrderQuantity, OrderDate = o.OrderDate, Price = b.BikePrice }).ToList();
+            return ordView;
+        }
+
+        public void RemoveOrder(int orderID)
+        {
+            _context.Orders.Remove(_context.Orders.Find(orderID));
+            _context.SaveChanges();
+        }
+
+        public void RemoveOrder(Product_BikeOrder bikeOrder)
+        {
+            _context.BikeOrders.Update(bikeOrder);
+            _context.SaveChanges();
+        }
     }
 }

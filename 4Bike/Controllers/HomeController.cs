@@ -35,14 +35,6 @@ namespace _4Bike.Controllers
 
         public IActionResult Index()
         {
-           
-            List<OrderView> ordView =( from o in _context.Orders.ToList()
-                    join bo in _context.BikeOrders.ToList() on o.OrderID equals bo.BikeOrderOrderID
-                    join b in _context.Bikes.ToList() on bo.BikeOrderBikeID equals b.BikeID
-                          join u in _context.Users.ToList() on o.Id equals u.Id
-                          where o.OrderID==4
-                          select new OrderView {BikeName = b.BikeName, Quantity = bo.BikeOrderQuantity, OrderDate = o.OrderDate, Price = b.BikePrice }).ToList();
-
             List<ShopingcartView> bikes = new List<ShopingcartView>();
             
             if (Request.Cookies["ShopingId"] != null)
@@ -81,12 +73,7 @@ namespace _4Bike.Controllers
             List<string> sArr = JsonSerializer.Deserialize<List<string>>(Request.Cookies["ShopingId"]);
             //Request.Cookies["ShopingId"];
             sArr.Remove(bID.ToString());
-            
-            
-                
                 Response.Cookies.Append("ShopingId", JsonSerializer.Serialize(sArr), cookie);
-            
-            
         }
 
         [HttpPost]
@@ -104,16 +91,14 @@ namespace _4Bike.Controllers
         [HttpPost]
         public IActionResult RemoveOrder(int orderID)
         {
-            _context.Orders.Remove(_context.Orders.Find(orderID));
-            _context.SaveChanges();
+            orderService.RemoveOrder(orderID);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         public IActionResult RemoveOrder(Product_BikeOrder bikeOrder)
         {
-            _context.BikeOrders.Update(bikeOrder);
-            _context.SaveChanges();
+            orderService.RemoveOrder(bikeOrder);
             return RedirectToAction("Index");
         }
 
