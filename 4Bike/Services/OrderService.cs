@@ -44,6 +44,23 @@ namespace _4Bike.Services
                 _context.SaveChanges();
         }
 
+        public List<OrderView> SearchOrder(OrderView input)
+        {
+            List<OrderView> listToSearch = ListOrder();
+            List<OrderView> searchResult = new List<OrderView>();
+
+            foreach(var item in listToSearch)
+            {
+                if(listToSearch.Any(item => item.BikeName == input.BikeName || item.OrderDate == input.OrderDate))
+                {
+                    searchResult.Add(item);
+                }
+            }
+
+            return searchResult;
+        }
+
+
         public List<OrderView> ListOrder()
         {
             List<OrderView> ordView = (from o in _context.Orders.ToList()
