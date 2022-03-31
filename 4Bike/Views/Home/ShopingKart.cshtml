@@ -3,6 +3,12 @@
 @using _4Bike.Models.ViewModels
 <!--model IEnumerable<OrderView>-->
 @model IEnumerable<ShopingcartView>
+
+    @inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+
+    
 @{
     ViewData["Title"] = "ShopingKart";
 }
@@ -33,5 +39,13 @@
    <hr />
    <h4>Total:</h4>
    <h2>@Model.Sum(x => x.TotalPrice) Kr</h2>
-   <button type="button" onclick="location.href='@Url.Action("AddOrder","Home")'" class="btn btn-success">Order</button>
+   @if (SignInManager.IsSignedIn(User))
+    {
+        <button type="button" onclick="location.href='@Url.Action("AddOrder","Home")'" class="btn btn-success">Order</button>
+    }
+    else
+    {
+        <p>You must login to to make a purtches</p>
+        <a class="nav-link" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    }
 </div>

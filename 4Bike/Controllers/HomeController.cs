@@ -97,7 +97,7 @@ namespace _4Bike.Controllers
 
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult AddOrder()
         {
             if (_signInManager.IsSignedIn(HttpContext.User) && Request.Cookies["ShopingId"] != null)
