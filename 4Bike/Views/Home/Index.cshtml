@@ -1,6 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using _4Bike.Areas.Identity.Data
 @using _4Bike.Models.ViewModels
+@using _4Bike.Models.Products;
+
+
 <!--model IEnumerable<OrderView>-->
 @model IEnumerable<ShopingcartView>
 @inject UserManager<ApplicationUser> UserManager
@@ -23,6 +26,29 @@
             </li>
         </ol>
         <div class="carousel-inner">
+
+            @{
+                int slideNumber = 0;
+                string activeClassName = "active";
+                foreach (Product_Bike bike in ViewBag.Bikes)
+                {
+                    <div class="carousel-item @activeClassName">
+                        <h5 class="text-dark" style=" text-align :center">@bike.BikeName</h5>
+                        <div class="navbar-brand" style="position:relative;">
+                            <img src="@bike.BikePicNav" class="img-fluid" style="width:100%;" />
+                            <a style="position:absolute;top:200px;bottom:200px;left:200px;right:200px;" asp-area="" asp-controller="Bike" asp-action="ChosenBike" asp-route-id="@bike.BikeID"></a>
+                        </div>
+
+
+                        <div class="carousel-caption d-none d-md-block">
+
+                        </div>
+                        @slideNumber++;
+                        @{activeClassName = "";}
+                    </div>
+                }
+            }
+
             <div class="carousel-item active">
                 <img src="~/BikePics/DamCyckel1.jpg" class="img-fluid" style="width:100%;" />
                 <div class="carousel-caption d-none d-md-block">
@@ -44,6 +70,7 @@
                     <p class="text-dark">Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
                 </div>
             </div>
+
         </div>
         <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
