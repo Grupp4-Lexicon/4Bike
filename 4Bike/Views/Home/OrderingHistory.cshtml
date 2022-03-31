@@ -2,14 +2,16 @@
 @using _4Bike.Areas.Identity.Data
 @using _4Bike.Models.ViewModels
 <!--model IEnumerable<OrderView>-->
-@model IEnumerable<ShopingcartView>
+@model IEnumerable<OrderView>
 @{
-    ViewData["Title"] = "ShopingKart";
+    ViewData["Title"] = "orderHistory";
 }
-
-<h1>ShopingKart</h1>
-<div class="container">
- @foreach (var item in Model)
+@foreach (var ite in Model.Select(x => x.OrderId ).Distinct())
+   {
+       <div class="row">
+    <p class="col-lg-2">@Model.Where(x => x.OrderId == ite).First().OrderDate</p> <p class="col-lg-2">Total @Model.Where(x => x.OrderId == ite).Sum(x => x.TotalCost) Kr</p>
+    </div>
+    @foreach (var item in Model.Where(x => x.OrderId == ite))
    {
                                
                           <div class="row">
@@ -18,20 +20,14 @@
                           
                           <div class="col-lg-2">
                               <p>@item.BikeName</p>
-                          <p>@item.ManufacturerName</p>
+                          <p>@item.ManifacturerName</p>
                           </div>                        
                       
                       <p>@item.Quantity</p>
                       <p class="col-lg-1">@item.Price Kr</p>
-                          <h3 class="col-lg-1">@item.TotalPrice Kr</h3>
-                          <button class="btn btn-link text-dark" onclick="location.href='@Url.Action("RemoveFromShopingKart","Home",new{bID = item.BikeID})'"><i class="fa-regular fa-x"></i></button>
-                          
+                          <h3 class="col-lg-1">@item.TotalCost Kr</h3>                          
                       </div>
                       <hr />
                       
    }
-   <hr />
-   <h4>Total:</h4>
-   <h2>@Model.Sum(x => x.TotalPrice) Kr</h2>
-   <button type="button" onclick="location.href='@Url.Action("AddOrder","Home")'" class="btn btn-success">Order</button>
-</div>
+}

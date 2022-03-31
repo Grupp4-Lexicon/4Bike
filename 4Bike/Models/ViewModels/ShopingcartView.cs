@@ -8,6 +8,7 @@ namespace _4Bike.Models.ViewModels
 {
     public class ShopingcartView
     {
+        public int BikeID { get; set; }
         public string BikeName { get; set; }
         public int Price { get; set; }
         public string PicPath { get; set; }
