@@ -81,7 +81,7 @@ namespace _4Bike.Controllers
             return View(bikes);
         }
         [HttpPost]
-        public void AddToShopingKart(int bID)
+        public IActionResult AddToShopingKart(int bID)
         {
             List<string> sId = new List<string>();
             if (Request.Cookies["ShopingId"] != null)
@@ -91,6 +91,7 @@ namespace _4Bike.Controllers
             sId.Add(bID.ToString());
             cookie.Expires = DateTime.Now.AddMinutes(2);
             Response.Cookies.Append("ShopingId", JsonSerializer.Serialize(sId), cookie);
+            return RedirectToAction("ShopingKart");
         }
         [HttpPost]
         public void RemoveFromShopingKart(int bID)

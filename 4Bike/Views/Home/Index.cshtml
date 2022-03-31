@@ -2,6 +2,7 @@
 @using _4Bike.Areas.Identity.Data
 @using _4Bike.Models.ViewModels
 @using _4Bike.Models.Products;
+
 <!--model IEnumerable<OrderView>-->
 @model IEnumerable<ShopingcartView>
 @inject UserManager<ApplicationUser> UserManager
@@ -11,17 +12,17 @@
 <div class="container-fluid">
     <div id="carouselExampleCaptions" class="carousel slide container-fluid" data-ride="carousel">
 
+
         <ol class="carousel-indicators">
-            @{
-                int indicatorId = 0;
-                foreach (Product_Bike bike in ViewBag.Bikes)
-                {
-                    <li data-target="#carouselExampleCaptions" data-slide-to="@indicatorId" class="active">
-                        <img src="@bike.BikePicNav" class="img-thumbnail mx-auto d-block" />
-                    </li>
-                    indicatorId++;
-                }
-            }
+            <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active">
+                <img src="~/BikePics/DamCyckel1.jpg" class="img-thumbnail mx-auto d-block" />
+            </li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="1">
+                <img src="~/BikePics/HerrCyckel1.jpg" class="img-thumbnail mx-auto d-block" />
+            </li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="2">
+                <img src="~/BikePics/MountainBike1.jpg" class="img-thumbnail mx-auto d-block" />
+            </li>
         </ol>
         <div class="carousel-inner">
             @{
@@ -29,16 +30,20 @@
                 string activeClassName = "active";
                 foreach (Product_Bike bike in ViewBag.Bikes)
                 {
-                        <div class="carousel-item @activeClassName">
-                            <h5 class="text-dark" style=" text-align :center">@bike.BikeName</h5>
+                    <div class="carousel-item @activeClassName">
+                        <h5 class="text-dark" style=" text-align :center">@bike.BikeName</h5>
+                        <div class="navbar-brand" style="position:relative;">
                             <img src="@bike.BikePicNav" class="img-fluid" style="width:100%;" />
-                            <div class="carousel-caption d-none d-md-block">
-
-                                <p class="text-dark">Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                            </div>
-                            @slideNumber++;
-                            @{activeClassName = "";}
+                            <a style="position:absolute;top:200px;bottom:200px;left:200px;right:200px;" asp-area="" asp-controller="Bike" asp-action="ChosenBike" asp-route-id="@bike.BikeID"></a>
                         </div>
+
+
+                        <div class="carousel-caption d-none d-md-block">
+
+                        </div>
+                        @slideNumber++;
+                        @{activeClassName = "";}
+                    </div>
                 }
             }
         </div>
