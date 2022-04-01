@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace _4Bike.Migrations
 {
-    public partial class Initial_Create : Migration
+    public partial class initialcreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -60,20 +60,6 @@ namespace _4Bike.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Manufacturers", x => x.ManufacturerID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Orders",
-                columns: table => new
-                {
-                    OrderID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderDate = table.Column<DateTime>(nullable: false),
-                    OrderHandelCost = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Orders", x => x.OrderID);
                 });
 
             migrationBuilder.CreateTable(
@@ -183,6 +169,27 @@ namespace _4Bike.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    OrderID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderDate = table.Column<DateTime>(nullable: false),
+                    OrderHandelCost = table.Column<int>(nullable: false),
+                    Id = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.OrderID);
+                    table.ForeignKey(
+                        name: "FK_Orders_AspNetUsers_Id",
+                        column: x => x.Id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Bikes",
                 columns: table => new
                 {
@@ -234,22 +241,22 @@ namespace _4Bike.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "42c10cb8-037a-4ebc-9298-9764363b7804", "ddb9417b-5582-4bfa-987a-1176b73939e0", "Admin", "ADMIN" });
+                values: new object[] { "a6d9402a-a357-438e-beb6-d8119b1095f9", "1a5ab7f2-8dc0-41e6-af73-5e3d5a83258f", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "59be7a65-239e-423a-a490-2a48f92e6caa", "aefde569-f1be-4add-b3fa-b02db4b6a200", "User", "USER" });
+                values: new object[] { "9af6bbfc-3cf8-4f72-a3cc-7c1ef726f21f", "f6699753-9775-4418-8b27-8848a3de8eac", "User", "USER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "59be7a65-239e-423a-a490-2a48f92e6caa", 0, "Testgatan 20", "cbc6661e-dd2e-4b71-8cd3-76d07236f1cf", "admin@admin.com", false, "Admin", "Adminsson", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAENF5kOW+ONijaTsmgfLgpPtR4rDwvR3mZ2jp2zqXub2SPXec0qm0OudlZWpXldPwaQ==", null, false, "8b6a537c-a24d-4898-bdd5-d8e1153f5e98", false, "admin@admin.com" });
+                values: new object[] { "9af6bbfc-3cf8-4f72-a3cc-7c1ef726f21f", 0, "Testgatan 20", "74beab36-38a1-4078-9f89-121c8faffb09", "admin@admin.com", false, "Admin", "Adminsson", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEPM9VBmS6lHyl798sgqFmEO9ML5kdwJGbAP/Rt5+GTUSf646eK7sRC7GkQKfXHJskw==", null, false, "a82c96d2-48a1-43ab-bea6-6849bfc8f8b9", false, "admin@admin.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "UserId", "RoleId" },
-                values: new object[] { "59be7a65-239e-423a-a490-2a48f92e6caa", "42c10cb8-037a-4ebc-9298-9764363b7804" });
+                values: new object[] { "9af6bbfc-3cf8-4f72-a3cc-7c1ef726f21f", "a6d9402a-a357-438e-beb6-d8119b1095f9" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -304,6 +311,11 @@ namespace _4Bike.Migrations
                 name: "IX_Bikes_ManufacturerID",
                 table: "Bikes",
                 column: "ManufacturerID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_Id",
+                table: "Orders",
+                column: "Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -330,9 +342,6 @@ namespace _4Bike.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Bikes");
 
             migrationBuilder.DropTable(
@@ -340,6 +349,9 @@ namespace _4Bike.Migrations
 
             migrationBuilder.DropTable(
                 name: "Manufacturers");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

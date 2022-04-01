@@ -48,15 +48,15 @@ namespace _4Bike.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a3fe74a4-ed94-4164-b954-2f2bc5c56c69",
-                            ConcurrencyStamp = "7691f131-2870-45d4-8bf6-aea00d51120a",
+                            Id = "a6d9402a-a357-438e-beb6-d8119b1095f9",
+                            ConcurrencyStamp = "1a5ab7f2-8dc0-41e6-af73-5e3d5a83258f",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "d070696b-bc00-4c1e-841d-42929646407a",
-                            ConcurrencyStamp = "eaf24834-ee0d-4e95-9518-28949f2f9e02",
+                            Id = "9af6bbfc-3cf8-4f72-a3cc-7c1ef726f21f",
+                            ConcurrencyStamp = "f6699753-9775-4418-8b27-8848a3de8eac",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -149,8 +149,8 @@ namespace _4Bike.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "d070696b-bc00-4c1e-841d-42929646407a",
-                            RoleId = "a3fe74a4-ed94-4164-b954-2f2bc5c56c69"
+                            UserId = "9af6bbfc-3cf8-4f72-a3cc-7c1ef726f21f",
+                            RoleId = "a6d9402a-a357-438e-beb6-d8119b1095f9"
                         });
                 });
 
@@ -249,10 +249,10 @@ namespace _4Bike.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d070696b-bc00-4c1e-841d-42929646407a",
+                            Id = "9af6bbfc-3cf8-4f72-a3cc-7c1ef726f21f",
                             AccessFailedCount = 0,
                             Address = "Testgatan 20",
-                            ConcurrencyStamp = "507f2983-d7f9-450a-806c-5045fc6b108c",
+                            ConcurrencyStamp = "74beab36-38a1-4078-9f89-121c8faffb09",
                             Email = "admin@admin.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -260,9 +260,9 @@ namespace _4Bike.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIP6ROad0xD3sBoy+qRzqkt48tek4DzsCCLWaL/043Jq9u5cYdhLN2FqdsgxCZUvBg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPM9VBmS6lHyl798sgqFmEO9ML5kdwJGbAP/Rt5+GTUSf646eK7sRC7GkQKfXHJskw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "09deec4d-4c87-433c-ae6d-3f598a73a990",
+                            SecurityStamp = "a82c96d2-48a1-43ab-bea6-6849bfc8f8b9",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
