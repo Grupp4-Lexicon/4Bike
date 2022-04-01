@@ -51,6 +51,7 @@ namespace _4Bike.Controllers
                     bikes.Add(shopingcart);
                 }
             }
+            ViewBag.Bikes = _context.Bikes.ToList();
             return View(bikes);
         }
         public IActionResult ShopingKart()
