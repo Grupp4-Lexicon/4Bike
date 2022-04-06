@@ -44,7 +44,31 @@ namespace _4Bike.Controllers
             ViewBag.Manufacturers = _context.Manufacturers.ToList();
             return View();
         }
+        [HttpPost]
+        public IActionResult SertchBike(string sertchBike)
+        {
+            
+            if (_context.Bikes.Any(x => x.BikeName.StartsWith(sertchBike))) {
+                List<AddBikesViewModel> bik = (from b in _context.Bikes.ToList()
+                                               join m in _context.Manufacturers.ToList() on b.ManufacturerID equals m.ManufacturerID
+                                               where b.BikeName.StartsWith(sertchBike)
+                                               select new AddBikesViewModel {BikeID =b.BikeID, BikeName = b.BikeName, ManufacturerID = m.ManufacturerID, Price = b.BikePrice, ManufacturerName = m.ManufacturerName, PicPath = b.BikePicNav }).ToList();
+                return PartialView("BikeSertch", bik);
+            }else if (_context.Manufacturers.Any(x => x.ManufacturerName.StartsWith(sertchBike)))
+            {
+                List<AddBikesViewModel> bik = (from b in _context.Bikes.ToList()
+                                               join m in _context.Manufacturers.ToList() on b.ManufacturerID equals m.ManufacturerID
+                                               where m.ManufacturerName.StartsWith(sertchBike)
+                                               select new AddBikesViewModel {BikeID=b.BikeID, BikeName = b.BikeName, ManufacturerID = m.ManufacturerID, Price = b.BikePrice, ManufacturerName = m.ManufacturerName, PicPath = b.BikePicNav }).ToList();
+                return PartialView("BikeSertch", bik);
+            }
+            else
+            {
+                List<AddBikesViewModel> bik = new List<AddBikesViewModel>();
+                return PartialView("BikeSertch", bik);
+            }
 
+        }
         [HttpPost]
         public IActionResult AddBike(AddBikesViewModel bike)
         {

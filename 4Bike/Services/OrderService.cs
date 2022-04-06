@@ -71,7 +71,17 @@ namespace _4Bike.Services
                                        select new OrderView { BikeName = b.BikeName, Quantity = bo.BikeOrderQuantity, OrderDate = o.OrderDate, Price = b.BikePrice }).ToList();
             return ordView;
         }
-
+        public List<OrderView> ListOrderDate()
+        {
+            List<OrderView> ordView = (from o in _context.Orders.ToList()
+                                       join bo in _context.BikeOrders.ToList() on o.OrderID equals bo.BikeOrderOrderID
+                                       join b in _context.Bikes.ToList() on bo.BikeOrderBikeID equals b.BikeID
+                                       join u in _context.Users.ToList() on o.Id equals u.Id
+                                       join m in _context.Manufacturers.ToList() on b.ManufacturerID equals m.ManufacturerID
+                                       orderby o.OrderDate descending
+                                       select new OrderView {UserName = u.UserName, BikeId = bo.BikeOrderBikeID, BikeOrderId = bo.BikeOrderID, OrderId = o.OrderID, ManifacturerName = m.ManufacturerName, BikeName = b.BikeName, Quantity = bo.BikeOrderQuantity, OrderDate = o.OrderDate, Price = b.BikePrice, PicPath = b.BikePicNav, TotalCost = bo.BikeOrderQuantity * b.BikePrice }).ToList();
+            return ordView;
+        }
         public void RemoveOrder(int orderID)
         {
             _context.Orders.Remove(_context.Orders.Find(orderID));

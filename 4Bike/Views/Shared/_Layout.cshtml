@@ -33,8 +33,12 @@
                    
                 </ul>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <form class="form-inline my-2 my-sm-0">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search our products..." aria-label="Search" />
+                    <form class="form-inline my-2 my-sm-0" autocomplete="off">
+                        <div>
+                        <input class="form-control mr-sm-2" onkeyup="serchProd()" name="seartch" type="search" placeholder="Search our products..." aria-label="Search" />
+                        
+                        <div id="serRes" class="productContainer"></div>
+                    </div>
                         <button class="btn my-2 my-sm-0 text-dark" type="submit"><i class="fas fa-search"></i></button>
                     </form>
                 </div>
