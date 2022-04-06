@@ -10,7 +10,10 @@ namespace _4Bike.Models.ViewModels
     public class OrderView
     {
         public int OrderId { get; set; }
+        public int BikeOrderId { get; set; }
+        public int BikeId { get; set; }
         public string BikeName { get; set; }
+        public string UserName { get; set; }
         public string ManifacturerName { get; set; }
         public int Price { get; set; }
         public int Quantity { get; set; }

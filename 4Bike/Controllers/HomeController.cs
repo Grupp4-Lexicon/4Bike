@@ -119,12 +119,35 @@ namespace _4Bike.Controllers
         }
 
         [HttpPost]
-        public IActionResult RemoveOrder(Product_BikeOrder bikeOrder)
+        public IActionResult RemoveBikeOrder(int boId)
         {
-            orderService.RemoveOrder(bikeOrder);
-            return RedirectToAction("Index");
+            _context.BikeOrders.Remove(_context.BikeOrders.Find(boId));
+            _context.SaveChanges();
+            foreach(var item in _context.Orders.ToList())
+            {
+                if(_context.BikeOrders.Where(x => x.BikeOrderOrderID == item.OrderID) == null)
+                {
+                    _context.Orders.Remove(item);
+                }
+            }
+            return PartialView("ViewOrder", orderService.ListOrderDate());
         }
-
+        [HttpPost]
+        public IActionResult ViewOrder(string userName)
+        {
+           if(userName != null) {
+                return PartialView("ViewOrder", orderService.ListOrderDate().Where(x => x.UserName.StartsWith(userName))); 
+            }
+            return PartialView("ViewOrder",orderService.ListOrderDate());
+        }
+        [HttpPost]
+        public IActionResult UpdateOrder(Product_BikeOrder bikeOrder)
+        {     
+                _context.BikeOrders.Update(bikeOrder);
+            _context.SaveChanges();
+            
+            return PartialView("ViewOrder", orderService.ListOrderDate());
+        }
         public IActionResult OrderingHistory()
         {
             List<OrderView> ordView = (from o in _context.Orders.ToList()
@@ -132,7 +155,7 @@ namespace _4Bike.Controllers
                                        join b in _context.Bikes.ToList() on bo.BikeOrderBikeID equals b.BikeID
                                        join m in _context.Manufacturers.ToList() on b.ManufacturerID equals m.ManufacturerID
                                        where o.Id == _userManager.GetUserId(HttpContext.User)
-                                       select new OrderView {OrderId = o.OrderID, ManifacturerName = m.ManufacturerName, BikeName = b.BikeName, Quantity = bo.BikeOrderQuantity, OrderDate = o.OrderDate, Price = b.BikePrice, PicPath = b.BikePicNav, TotalCost =bo.BikeOrderQuantity * b.BikePrice  }).ToList();
+                                       select new OrderView { OrderId = o.OrderID, ManifacturerName = m.ManufacturerName, BikeName = b.BikeName, Quantity = bo.BikeOrderQuantity, OrderDate = o.OrderDate, Price = b.BikePrice, PicPath = b.BikePicNav, TotalCost =bo.BikeOrderQuantity * b.BikePrice  }).ToList();
             return View(ordView);
         }
 

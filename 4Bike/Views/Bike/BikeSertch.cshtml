@@ -6,9 +6,13 @@
 @model IEnumerable<AddBikesViewModel>
 @if(Model.Any()){
 <div class="product">
+
  @foreach (var item in Model)
-   {<div class="row">
-	<img src="@item.PicPath" class="col-lg-6" />
+   {
+       <a class="text-dark" asp-area="" asp-controller="Bike" asp-action="ChosenBike" asp-route-id="@item.BikeID">
+       <div class="row">
+	
+           <img src="@item.PicPath" class="col-lg-6" />
                          
                           
                           <div class="col-lg-6">
@@ -16,15 +20,8 @@
                           <p>@item.ManufacturerName</p>
                           </div> 
                           </div>
-                          <div class="row">
-	<img src="@item.PicPath" class="col-lg-6"/>
-                         
-                          
-                          <div class="col-lg-6">
-                              <p>@item.BikeName</p>
-                          <p>@item.ManufacturerName</p>
-                          </div> 
-                          </div>
+                      
+                         </a>
    }
    </div>
 }
