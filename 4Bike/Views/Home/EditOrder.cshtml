@@ -1,0 +1,17 @@
+﻿@using  _4Bike.Models.ViewModels
+@model OrderView
+
+<h3>Order Handeling</h3>
+
+<form asp-action="SearchOrder" method="post">
+    <div class="form-group">
+        <label asp-for="BikeName"></label>
+        <select id="chosenBikeName" asp-for="BikeName" required>
+            <option value="">none</option>
+            @foreach (OrderView ov in Model.OrderList)
+            {
+                <option value="@ov.BikeName">@ov.BikeName</option>
+            }
+        </select>
+    </div>
+</form>

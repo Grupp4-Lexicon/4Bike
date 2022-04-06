@@ -54,6 +54,15 @@ namespace _4Bike.Controllers
             ViewBag.Bikes = _context.Bikes.ToList();
             return View(bikes);
         }
+
+        [HttpPost]
+        public IActionResult EditOrder(OrderView orderView)
+        {
+            orderView.OrderList = orderService.ListOrder();
+
+            return View(orderView);
+        }
+
         public IActionResult ShopingKart()
         {
             List<ShopingcartView> bikes = new List<ShopingcartView>();
@@ -94,7 +103,7 @@ namespace _4Bike.Controllers
             //Request.Cookies["ShopingId"];
             sArr.Remove(bID.ToString());          
                 
-                Response.Cookies.Append("ShopingId", JsonSerializer.Serialize(sArr), cookie);
+            Response.Cookies.Append("ShopingId", JsonSerializer.Serialize(sArr), cookie);
             return RedirectToAction("ShopingKart");
 
         }
