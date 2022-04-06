@@ -1,29 +1,37 @@
-﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
-
+﻿@using _4Bike.Areas.Identity.Data
+@using Microsoft.AspNetCore.Identity
+@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Index";
 }
+<div class="row">
+    <div class="col-12 col-md-8 col-lg-10">
+        <h1>Roles</h1>
 
-<h1>Roles</h1>
+        <a asp-action="Create">Create role</a>
+        <a asp-action="AddUserToRole">Add user to role</a>
 
-<a asp-action="Create">Create role</a>
-<a asp-action="AddUserToRole">Add user to role</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Name</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-12 col-md-4 col-lg-2">
+        <partial name="/Views/Shared/SidebarPartial.cshtml" model="UserManager.GetUserName(User)" />
+    </div>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Id</td>
-                <td>@item.Name</td>
-            </tr>
-        }
-    </tbody>
-</table>
-
+</div>

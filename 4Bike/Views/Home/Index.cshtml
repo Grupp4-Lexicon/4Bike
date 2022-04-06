@@ -10,14 +10,14 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-<div class="container-fluid style = " margin-top: 5rem;">
-    <div class="d-block mt-n5">
+<div class="container">
+    <div class="d-block mt-n1">
         <ol class="carousel-indicators">
             @{
                 int indicatorId = 0;
                 foreach (Product_Bike bike in ViewBag.Bikes)
                 {
-                    <li data-target="#carouselExampleCaptions" style="width:125px;height:125px" data-slide-to="@indicatorId" class="active">
+                    <li data-target="#carouselExampleCaptions" style="width:100px;height:100px " data-slide-to="@indicatorId" class="active">
                         <img src="@bike.BikePicNav" class="img-thumbnail mx-auto d-block" />
                     </li>
                     indicatorId++;
@@ -34,7 +34,7 @@
                 string activeClassName = "active";
                 foreach (Product_Bike bike in ViewBag.Bikes)
                 {
-                    <div class="carousel-item @activeClassName">
+                    <div class="carousel-item @activeClassName"> 
                         <h5 class="text-dark" style=" text-align :center"> <h2 style="color: #808080">@bike.BikeName</h2></h5>
                         <img src="@bike.BikePicNav" class="img-fluid" style="width:70%;height:500px" />
                         <a style="position:absolute;top:200px;bottom:200px;left:200px;right:200px;" asp-area="" asp-controller="Bike" asp-action="ChosenBike" asp-route-id="@bike.BikeID"></a>

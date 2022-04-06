@@ -15,7 +15,6 @@
     }
 }
 
-<h2>Manage your account</h2>
 
 <div class="row">
 
@@ -32,42 +31,14 @@
             </div>
         </div>*@
 
-    <div class="col-md-9 col-12">
+    <div class="col-12 col-md-8 col-lg-10">
+
+        <h2>Manage your account</h2>
+
         @RenderBody()
     </div>
 
-    <div class="col-md-3 col-12 bg-light text-center">
-
-        <div class="text-center">
-            <i class="fas fa-user-circle fa-9x text-secondary"></i>
-
-            <p>Welcome, @UserManager.GetUserName(User)!</p>
-        </div>
-
-
-        <nav class="flex-column">
-            <button type="button" style="margin-bottom: 20px; margin-top: 50px;" class="btn btn-outline-secondary btn-lg btn-block" onclick="location.href = '@Url.Action("AddUserToRole", "Role" )'">Roles</button>
-            <button type="button" style="margin-bottom: 20px;" class="btn btn-outline-secondary btn-lg btn-block" onclick="location.href = '@Url.Action("UpdateOrder", "Home" )'">Edit orders</button>
-            <button type="button" style="margin-bottom: 20px;" class="btn btn-outline-secondary btn-lg btn-block" onclick="location.href = '@Url.Action("ListBikes", "Bike" )'">List of Bikes</button>
-            <button type="button" style="margin-bottom: 20px;" class="btn btn-outline-secondary btn-lg btn-block" onclick="location.href = '@Url.Action("AddBike", "Bike" )'">Add product</button>
-            <button type="button" style="margin-bottom: 20px;" class="btn btn-outline-secondary btn-lg btn-block" onclick="location.href = '@Url.Action("Index", "Manufacturer" )'">List of Manufacturer</button>
-            <button type="button" style="margin-bottom: 20px;" class="btn btn-outline-secondary btn-lg btn-block" onclick="location.href = '@Url.Action("AddManufacturer", "Manufacturer" )'">Add Manufacturer</button>
-            <button type="button" style="margin-bottom: 20px;" class="btn btn-outline-secondary btn-lg btn-block" onclick="location.href = '@Url.Action("OrderingHistory","Home")'">History</button>
-            <button type="button" style="margin-bottom: 20px;" class="btn btn-outline-secondary btn-lg btn-block" onclick="location.href = '@Url.Action("EditUser", "Role" )'">Account</button>
-
-
-
-            @*<form id="logoutForm" class="form-inline" action="/Identity/Account/Logout?returnUrl=%2F" method="post">
-
-            <button id="logout" class="btn btn-outline-secondary btn-lg btn-block" type="submit">Logout</button>
-
-            <input name="__RequestVerificationToken" type="hidden" value="">
-        </form>*@
-
-
-        </nav>
-
-    </div>
+    <div class="col-12 col-md-4 col-lg-2"><partial name="/Views/Shared/SidebarPartial.cshtml" model="UserManager.GetUserName(User)" /></div>
 </div>
 
 
