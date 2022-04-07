@@ -1,12 +1,22 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using _4Bike.Areas.Identity.Data
 @using _4Bike.Models.ViewModels
+@inject UserManager<ApplicationUser> UserManager
 <!--model IEnumerable<OrderView><button type="button" style="margin-bottom: 20px;" class="btn btn-outline-secondary btn-lg btn-block" onclick="location.href = 'Url.Action("RemoveOrder", "Home",new{} )'">Delete</button>
               -->      
 @model IEnumerable<OrderView>
-<input type="search" name="userSertch"/>
-<input type="date" name="oDate"/>
-<button onclick="userSertch()">sertch</button>
+
+   @* @using (Html.BeginForm("ViewOrder", "Home", FormMethod.Post))
+        {
+<input type="search" name="userName"/>
+<input type="date" name="orderDate"/>
+
+<input type="submit" value="sertch">
+        }*@
+
+<div class="row">
+    <div class="col-12 col-md-8 col-lg-10">
+
 	@foreach (var ite in Model.Select(x => x.OrderId ).Distinct())
    {
        <div class="row">
@@ -42,3 +52,8 @@
 }
    
 }
+</div>
+<div class="col-12 col-md-4 col-lg-2">
+        <partial name="/Views/Shared/SidebarPartial.cshtml" model="UserManager.GetUserName(User)" />
+    </div>
+    </div>

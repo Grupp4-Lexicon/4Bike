@@ -1,28 +1,24 @@
-﻿@using _4Bike.Areas.Identity.Data
-@using Microsoft.AspNetCore.Identity
-@using  _4Bike.Models.ViewModels
-@model OrderView
-@inject UserManager<ApplicationUser> UserManager
+﻿
+@*<h3>Order Handeling</h3>
 
-
-<div class="row">
-    <div class="col-12 col-md-8 col-lg-10">
-        <h3>Order Handeling</h3>
-
-        <form asp-action="SearchOrder" method="post">
-            <div class="form-group">
-                <label asp-for="BikeName"></label>
-                <select id="chosenBikeName" asp-for="BikeName" required>
-                    <option value="">none</option>
-                    @foreach (OrderView ov in Model.OrderList)
-                    {
-                        <option value="@ov.BikeName">@ov.BikeName</option>
-                    }
-                </select>
-            </div>
-        </form>
+<form asp-action="SearchOrder" method="post">
+    <div class="form-group">
+        <label asp-for="BikeName"></label>
+        <select id="chosenBikeName" asp-for="BikeName" required>
+            <option value="">none</option>
+            @foreach (OrderView ov in Model.OrderList)
+            {
+                <option value="@ov.BikeName">@ov.BikeName</option>
+            }
+        </select>
     </div>
-    <div class="col-12 col-md-4 col-lg-2">
-        <partial name="/Views/Shared/SidebarPartial.cshtml" model="UserManager.GetUserName(User)" />
+</form>*@
+<input type="search" name="userSertch"/>
+<input type="date" name="oDate"/>
+
+<button onclick="userSertch()">sertch</button>
+ 
+<div id="orders">
+
     </div>
-</div>
+   

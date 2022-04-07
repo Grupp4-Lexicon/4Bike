@@ -1,16 +1,19 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using _4Bike.Areas.Identity.Data
 @using _4Bike.Models.ViewModels
-<!--model IEnumerable<OrderView>-->
+@inject UserManager<ApplicationUser> UserManager
+
 @model IEnumerable<OrderView>
 @{
     ViewData["Title"] = "orderHistory";
 }
+<div class="row">
+    <div class="col-12 col-md-8 col-lg-10">
 @foreach (var ite in Model.Select(x => x.OrderId ).Distinct())
    {
        <div class="row">
-    <p class="col-lg-2">@Model.Where(x => x.OrderId == ite).First().OrderDate</p> <p class="col-lg-2">Total @Model.Where(x => x.OrderId == ite).Sum(x => x.TotalCost) Kr</p>
-    </div>
+        <p class="col-lg-2">@Model.Where(x => x.OrderId == ite).First().OrderDate</p> <p class="col-lg-2">Total @Model.Where(x => x.OrderId == ite).Sum(x => x.TotalCost) Kr</p>
+        </div>
     @foreach (var item in Model.Where(x => x.OrderId == ite))
    {
                                
@@ -31,3 +34,9 @@
                       
    }
 }
+</div>
+    <div class="col-12 col-md-4 col-lg-2">
+        <partial name="/Views/Shared/SidebarPartial.cshtml" model="UserManager.GetUserName(User)" />
+    
+    </div>
+    </div>

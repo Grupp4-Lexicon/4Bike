@@ -55,12 +55,12 @@ namespace _4Bike.Controllers
             return View(bikes);
         }
 
-        [HttpPost]
-        public IActionResult EditOrder(OrderView orderView)
+        [HttpGet]
+        public IActionResult EditOrder()
         {
-            orderView.OrderList = orderService.ListOrder();
+            //orderView.OrderList = orderService.ListOrder();
 
-            return View(orderView);
+            return View();
         }
 
         public IActionResult ShopingKart()
@@ -132,29 +132,43 @@ namespace _4Bike.Controllers
         {
             _context.BikeOrders.Remove(_context.BikeOrders.Find(boId));
             _context.SaveChanges();
-            foreach(var item in _context.Orders.ToList())
+            foreach (var item in _context.Orders.ToList())
             {
-                if(_context.BikeOrders.Where(x => x.BikeOrderOrderID == item.OrderID) == null)
+                if(!_context.BikeOrders.Any(x => x.BikeOrderOrderID == item.OrderID))
                 {
                     _context.Orders.Remove(item);
+                    _context.SaveChanges();
                 }
             }
+            
             return PartialView("ViewOrder", orderService.ListOrderDate());
-        }
+        }  
         [HttpPost]
-        public IActionResult ViewOrder(string userName)
-        {
-           if(userName != null) {
-                return PartialView("ViewOrder", orderService.ListOrderDate().Where(x => x.UserName.StartsWith(userName))); 
+        public IActionResult ViewOrder(string userName,DateTime orderDate)
+        {          
+            
+            if (orderService.ListOrderDate().Any(x => x.OrderDate.Date == orderDate) && userName != null)
+            {
+                return View(orderService.ListOrderDate().Where(x => x.OrderDate.Date==orderDate && x.UserName.StartsWith(userName)));
+
+            }else if(orderService.ListOrderDate().Any(x => x.OrderDate.Date == orderDate))
+            {
+
+                return PartialView("ViewOrder",orderService.ListOrderDate().Where(x => x.OrderDate.Date == orderDate ));
+
             }
-            return PartialView("ViewOrder",orderService.ListOrderDate());
+            else if(userName != null)
+            {
+                return PartialView("ViewOrder", orderService.ListOrderDate().Where(x => x.UserName.StartsWith(userName)));
+            }
+            return PartialView("ViewOrder", orderService.ListOrderDate());
         }
         [HttpPost]
         public IActionResult UpdateOrder(Product_BikeOrder bikeOrder)
         {     
                 _context.BikeOrders.Update(bikeOrder);
             _context.SaveChanges();
-            
+
             return PartialView("ViewOrder", orderService.ListOrderDate());
         }
         public IActionResult OrderingHistory()
