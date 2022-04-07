@@ -1,7 +1,5 @@
-﻿@using  _4Bike.Models.ViewModels
-@model OrderView
-
-<h3>Order Handeling</h3>
+﻿
+@*<h3>Order Handeling</h3>
 
 <form asp-action="SearchOrder" method="post">
     <div class="form-group">
@@ -14,4 +12,13 @@
             }
         </select>
     </div>
-</form>
+</form>*@
+<input type="search" name="userSertch"/>
+<input type="date" name="oDate"/>
+
+<button onclick="userSertch()">sertch</button>
+ 
+<div id="orders">
+
+    </div>
+   

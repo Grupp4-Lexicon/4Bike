@@ -19,7 +19,9 @@ function serchProd() {
 }
 function userViews() {
     $.post("/Home/ViewOrder", function (result) {
-        document.getElementById("orders").innerHTML = result;
+        if (document.getElementById("orders")) {
+            document.getElementById("orders").innerHTML = result;
+        }
     });
 }
 function userSertch() {
