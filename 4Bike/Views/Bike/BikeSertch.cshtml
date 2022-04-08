@@ -9,7 +9,7 @@
 
  @foreach (var item in Model)
    {
-       <a class="text-dark" asp-area="" asp-controller="Bike" asp-action="ChosenBike" asp-route-id="@item.BikeID">
+       <a class="text-dark" onclick="location.href='@Url.Action("ChosenBike","Bike",new{bID = item.BikeID})'">
        <div class="row">
 	
            <img src="@item.PicPath" class="col-lg-6" />
