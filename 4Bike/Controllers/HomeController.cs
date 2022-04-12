@@ -1,12 +1,10 @@
 ﻿using _4Bike.Models;
 using _4Bike.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using _4Bike.Models.ViewModels;
 using _4Bike.Models.Products;
 using Microsoft.AspNetCore.Http;

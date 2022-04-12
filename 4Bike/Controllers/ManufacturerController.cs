@@ -1,12 +1,8 @@
 ﻿using _4Bike.Data;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using _4Bike.Models.Products;
 using _4Bike.Models.ViewModels;
-using Microsoft.EntityFrameworkCore;
 
 namespace _4Bike.Controllers
 {
