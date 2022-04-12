@@ -99,7 +99,7 @@ namespace _4Bike.Services
             _context.SaveChanges();
         }
 
-        public bool OrderReceipt(OrderView orderView)
+        public bool OrderReceipt(int orderId)
         {
             //Checks to see if the directory exsists and if not creates the save directory for the receipts
             const string saveDir = "Receipts";
@@ -109,21 +109,27 @@ namespace _4Bike.Services
                 Directory.CreateDirectory(path);
             }
 
-            string receiptName = orderView.OrderId.ToString() + DateTime.Now.ToString("yy-MM-dd-hh-mm-fff") + ".txt";
+            List<OrderView> orderHistory = ListOrderDate();
+            OrderView currentOrder = new OrderView { OrderId = orderId };
+
+            string receiptName = currentOrder.OrderId.ToString() + "-" + DateTime.Now.ToString("yy-MM-dd-hh-mm-fff") + ".txt";
             string textToAdd;
             List<string> receiptBody = new List<string>();
 
-            foreach( var item in orderView.OrderList)
+            foreach( var ite in orderHistory.Select(x => x.OrderId).Distinct())
             {
-                textToAdd = ("------------------------------\n" +
-                             $"OrderId: {item.OrderId}\n" +
-                             $"Orederd Item: {item.BikeName}\n" +
-                             $"Ordered Quantity: {item.Quantity} \n" +
-                             $"Oredred Item Price: {item.Price} \n" +
-                             $"Order Total Price: {item.TotalCost}\n" +
-                             $"Orederd Date: {item.OrderDate}\n" +
-                             "-------------------------------");
-                receiptBody.Add(textToAdd);
+                foreach (var item in orderHistory.Where(x => x.OrderId == ite))
+                {
+                    textToAdd = ("-----------------------------------\n" +
+                                 $"OrderId: {item.OrderId}\n" +
+                                 $"Orederd Item: {item.BikeName}\n" +
+                                 $"Ordered Quantity: {item.Quantity} \n" +
+                                 $"Oredred Item Price: {item.Price} \n" +
+                                 $"Order Total Price: {item.TotalCost}\n" +
+                                 $"Orederd Date: {item.OrderDate}\n" +
+                                 "-----------------------------------");
+                    receiptBody.Add(textToAdd);
+                }
             }
 
             try

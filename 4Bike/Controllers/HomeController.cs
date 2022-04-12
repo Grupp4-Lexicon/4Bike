@@ -201,9 +201,9 @@ namespace _4Bike.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult MakeReceipt(OrderView orderView)
+        public IActionResult MakeReceipt(int orderId)
         {
-            orderService.OrderReceipt(orderView);
+            orderService.OrderReceipt(orderId);
 
             return Redirect(Request.Headers["Referer"].ToString());
         }
