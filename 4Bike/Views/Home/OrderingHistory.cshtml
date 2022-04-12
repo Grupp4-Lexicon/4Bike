@@ -12,8 +12,9 @@
 @foreach (var ite in Model.Select(x => x.OrderId ).Distinct())
    {
        <div class="row">
-        <p class="col-lg-2">@Model.Where(x => x.OrderId == ite).First().OrderDate</p> <p class="col-lg-2">Total @Model.Where(x => x.OrderId == ite).Sum(x => x.TotalCost) Kr</p>
-        </div>
+           <p class="col-lg-2">@Model.Where(x => x.OrderId == ite).First().OrderDate</p> <p class="col-lg-2">Total @Model.Where(x => x.OrderId == ite).Sum(x => x.TotalCost) Kr</p>
+           <a class="btn btn-primary" @Html.ActionLink("Get Receipt","MakeReceipt", "Home", new { orderId = ite })></a>
+       </div>
     @foreach (var item in Model.Where(x => x.OrderId == ite))
    {
                                

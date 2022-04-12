@@ -14,23 +14,26 @@ using Microsoft.AspNetCore.Identity;
 using _4Bike.Areas.Identity.Data;
 using System.Text.Json;
 using _4Bike.Services;
+using Microsoft.AspNetCore.Hosting;
 
 namespace _4Bike.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IWebHostEnvironment _environment;
         private readonly OrderService orderService;
         private readonly AuthDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         public static CookieOptions cookie = new CookieOptions();
 
-        public HomeController(AuthDbContext authDbContext, UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser> signInManager)
+        public HomeController(AuthDbContext authDbContext, UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser> signInManager, IWebHostEnvironment environment)
         {
+            _environment = environment;
             _context = authDbContext;
             _userManager = userManager;
             _signInManager = signInManager;
-            orderService = new OrderService(authDbContext, userManager, signInManager);
+            orderService = new OrderService(authDbContext, userManager, signInManager, environment);
         }
 
         public IActionResult Index()
@@ -170,7 +173,7 @@ namespace _4Bike.Controllers
         [HttpPost]
         public IActionResult UpdateOrder(Product_BikeOrder bikeOrder)
         {     
-                _context.BikeOrders.Update(bikeOrder);
+            _context.BikeOrders.Update(bikeOrder);
             _context.SaveChanges();
 
             return PartialView("ViewOrder", orderService.ListOrderDate());
@@ -196,6 +199,13 @@ namespace _4Bike.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult MakeReceipt(int orderId)
+        {
+            orderService.OrderReceipt(orderId);
+
+            return Redirect(Request.Headers["Referer"].ToString());
         }
     }
 }

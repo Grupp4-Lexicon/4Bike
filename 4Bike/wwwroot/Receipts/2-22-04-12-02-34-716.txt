@@ -1,0 +1,16 @@
+------------------------------
+OrderId: 2
+Orederd Item: Bike2
+Ordered Quantity: 2 
+Oredred Item Price: 450 
+Order Total Price: 900
+Orederd Date: 2022-04-12 12:31:25
+-------------------------------
+------------------------------
+OrderId: 2
+Orederd Item: Bike
+Ordered Quantity: 1 
+Oredred Item Price: 230 
+Order Total Price: 230
+Orederd Date: 2022-04-12 12:31:25
+-------------------------------
