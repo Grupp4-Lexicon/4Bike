@@ -2,70 +2,75 @@
 @using _4Bike.Areas.Identity.Data
 @using _4Bike.Models.ViewModels
 @using _4Bike.Models.Products;
+
+
 <!--model IEnumerable<OrderView>-->
 @model IEnumerable<ShopingcartView>
 @inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Home Page";
 }
-<div class="container-fluid">
-    <div id="carouselExampleCaptions" class="carousel slide container-fluid" data-ride="carousel">
-
+<div class="container">
+    <div class="d-block mt-n1">
         <ol class="carousel-indicators">
             @{
                 int indicatorId = 0;
                 foreach (Product_Bike bike in ViewBag.Bikes)
                 {
-                    <li data-target="#carouselExampleCaptions" data-slide-to="@indicatorId" class="active">
+                    <li data-target="#carouselExampleCaptions" style="width:100px;height:100px " data-slide-to="@indicatorId" class="active">
                         <img src="@bike.BikePicNav" class="img-thumbnail mx-auto d-block" />
                     </li>
                     indicatorId++;
                 }
             }
         </ol>
-        <div class="carousel-inner">
+    </div>
+    <div id="carouselExampleCaptions" class="carousel slide container-fluid" data-ride="carousel">
+
+
+        <div class="carousel-inner text-center" style=" margin-top:130px">
             @{
                 int slideNumber = 0;
                 string activeClassName = "active";
                 foreach (Product_Bike bike in ViewBag.Bikes)
                 {
-                        <div class="carousel-item @activeClassName">
-                            <h5 class="text-dark" style=" text-align :center">@bike.BikeName</h5>
-                            <img src="@bike.BikePicNav" class="img-fluid" style="width:100%;" />
-                            <div class="carousel-caption d-none d-md-block">
+                    <div class="carousel-item @activeClassName"> 
+                        <h5 class="text-dark" style=" text-align :center"> <h2 style="color: #808080">@bike.BikeName</h2></h5>
+                        <img src="@bike.BikePicNav" class="img-fluid" style="width:70%;height:500px" />
+                        <a style="position:absolute;top:200px;bottom:200px;left:200px;right:200px;" onclick="location.href='@Url.Action("ChosenBike","Bike",new{bID = bike.BikeID})'"></a>
+                        <div class="carousel-caption d-none d-md-block">
 
-                                <p class="text-dark">Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                            </div>
-                            @slideNumber++;
-                            @{activeClassName = "";}
+
                         </div>
+                        @* @slideNumber++;*@
+                        @{activeClassName = "";}
+                    </div>
                 }
             }
         </div>
         <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="fa fa-angle-left text-dark fa-2x" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
         </a>
         <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="fa fa-angle-right text-dark fa-2x" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
         </a>
     </div>
 </div>
 
-<div class="text-center">
 
-    <div class="text-center">
-        <h1 class="display-4">Welcome</h1>
-        <p>@ViewBag.Mes </p>
-        <!-- foreach (var item in Model)
-        {
-                               <p>item.BikeName</p>
-                               <p>item.Price</p>
-                               <p>item.OrderDate</p>
-                               <p>item.Quantity</p>
-        }-->
-        @foreach (var item in Model)
+@* <div class="text-center">
+            <h1 class="display-4">Welcome</h1>
+            <p>@ViewBag.Mes </p>
+     foreach (var item in Model)
+    {
+                           <p>item.BikeName</p>
+                           <p>item.Price</p>
+                           <p>item.OrderDate</p>
+                           <p>item.Quantity</p>
+    }
+    @foreach (var item in Model)
         {
             <p>@item.BikeName</p>
             <p>@item.Price</p>
@@ -89,4 +94,4 @@
             <input type="number" name="bID" placeholder="bike">
             <input type="submit" value="delet kart thing">
         }
-    </div>
+    </div>*@

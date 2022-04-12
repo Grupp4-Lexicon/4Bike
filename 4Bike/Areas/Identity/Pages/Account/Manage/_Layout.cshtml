@@ -15,40 +15,19 @@
     }
 }
 
-<h2>Manage your account</h2>
 
 <div class="row">
 
-    <div class="col-md-8">
-        <h4>Change your account settings</h4>
-        <hr />
-        <div class="row">
-            <div class="col">
-                <partial name="_ManageNav" />
-            </div>
-            <div class="col">
-                @RenderBody()
-            </div>
-        </div>
+ 
+
+    <div class="col-12 col-md-8 col-lg-10">
+
+        <h2>Manage your account</h2>
+
+        @RenderBody()
     </div>
 
-    <div class="col-md-2 bg-light text-center">
-
-        <div class="text-center">
-            <i class="fas fa-user-circle fa-9x text-secondary"></i>
-
-            <p>Welcome, @UserManager.GetUserName(User)!</p>
-        </div>
-        
-
-        <nav class="flex-column">
-            <button type="button" class="btn btn-outline-secondary btn-lg btn-block">Edit orders</button>
-            <button type="button" class="btn btn-outline-secondary btn-lg btn-block">Receipts</button>
-            <button type="button" class="btn btn-outline-secondary btn-lg btn-block">History</button>
-            <button type="button" class="btn btn-outline-secondary btn-lg btn-block">Logout</button>
-        </nav>
-
-    </div>
+    <div class="col-12 col-md-4 col-lg-2"><partial name="/Views/Shared/SidebarPartial.cshtml" model="UserManager.GetUserName(User)" /></div>
 </div>
 
 

@@ -7,27 +7,38 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+
+    <style>
+        .plr_10 {
+            padding-left: 10rem !important;
+            padding-right: 10rem !important;
+        }
+    </style>
 </head>
-<body>
+<body onload="userViews()">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white">
-            <div class="container">
+            <div class="container-fluid">
 
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">4Bike</a>
+                <a class="navbar-brand" style="font-family: Righteous; font-size: 50px; color: #808080 " asp-controller="Home" asp-action="Index">4Bike</a>
                 <ul class="navbar-nav">
 
-                    @if (User.IsInRole("Admin"))
+                   @* @if (User.IsInRole("Admin"))
                     {
                         <li class="nav-item"><a class="nav-link" asp-controller="Role" asp-action="Index">Roles</a></li>
                         <li class="nav-item"><a class="nav-link text-dark" asp-area="" asp-controller="Bike" asp-action="ListBikes">List of Bikes</a></li>
                         <li><a class="nav-link text-dark" asp-area="" asp-controller="Manufacturer" asp-action="Index">List Of Manufacturer</a></li>
                         <li class="nav-item"><a class="nav-link" asp-controller="Role" asp-action="UserList">Manage users</a></li>
-                    }
+                    }*@
                    
                 </ul>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <form class="form-inline my-2 my-sm-0">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search our products..." aria-label="Search" />
+                    <form class="form-inline my-2 my-sm-0" autocomplete="off">
+                        <div>
+                        <input class="form-control mr-sm-2" onkeyup="serchProd()" name="seartch" type="search" placeholder="Search our products..." aria-label="Search" />
+                        
+                        <div id="serRes" class="productContainer"></div>
+                    </div>
                         <button class="btn my-2 my-sm-0 text-dark" type="submit"><i class="fas fa-search"></i></button>
                     </form>
                 </div>
@@ -37,7 +48,7 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -49,7 +60,7 @@
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="4Bike/Scripts/4Bscript.js"></script>
+    <script src="~/js/4Bscript.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)

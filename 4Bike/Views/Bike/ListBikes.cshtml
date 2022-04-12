@@ -1,41 +1,54 @@
-﻿@model IEnumerable<_4Bike.Models.Products.Product_Bike>
+﻿
+@using _4Bike.Areas.Identity.Data
+@using Microsoft.AspNetCore.Identity
+@model IEnumerable<_4Bike.Models.Products.Product_Bike>
+
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "List of Bike";
 }
 
 
-<h5>The list of Bikes in the Database</h5>
+<div class="row">
+    <div class="col-12 col-md-8 col-lg-10">
+        <h5>The list of Bikes in the Database</h5>
 
-<p>
-    <a asp-action="AddBike">Add Bike</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Image</th>
-            <th>ManufacturerID</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>@item.BikeID</td>
-            <td>@item.BikeName</td>
-            <td>@item.BikePrice</td>
-            <td>@item.BikePicNav</td>
-            <td>@item.ManufacturerID</td>
-            @*<td>@item.ManufacturerName</td>*@
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Image</th>
+                    <th>ManufacturerName</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.BikeID</td>
+                        <td>@item.BikeName</td>
+                        <td>@item.BikePrice</td>
+                        <td>@item.BikePicNav</td>
+                        <td>@item.Manufacturer.ManufacturerName</td>
+                        @*<td>@item.ManufacturerName</td>*@
 
 
-            <td><a asp-action="DeleteBike" asp-route-id=@item.BikeID>Delete</a></td>
-            <td><a asp-action="EditBike" asp-route-id=@item.BikeID>Edit</a></td>
-        </tr>
-        }
+                        <td><a asp-action="DeleteBike" asp-route-id=@item.BikeID>Delete</a> | <a asp-action="EditBike" asp-route-id=@item.BikeID>Edit</a></td>
+                    </tr>
+                }
 
-    </tbody>
-</table>
+
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-12 col-md-4 col-lg-2">
+    <partial name="/Views/Shared/SidebarPartial.cshtml" model="UserManager.GetUserName(User)" />
+    </div>
+
+</div>

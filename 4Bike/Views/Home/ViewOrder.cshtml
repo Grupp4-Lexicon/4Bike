@@ -1,0 +1,59 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using _4Bike.Areas.Identity.Data
+@using _4Bike.Models.ViewModels
+@inject UserManager<ApplicationUser> UserManager
+<!--model IEnumerable<OrderView><button type="button" style="margin-bottom: 20px;" class="btn btn-outline-secondary btn-lg btn-block" onclick="location.href = 'Url.Action("RemoveOrder", "Home",new{} )'">Delete</button>
+              -->      
+@model IEnumerable<OrderView>
+
+   @* @using (Html.BeginForm("ViewOrder", "Home", FormMethod.Post))
+        {
+<input type="search" name="userName"/>
+<input type="date" name="orderDate"/>
+
+<input type="submit" value="sertch">
+        }*@
+
+<div class="row">
+    <div class="col-12 col-md-8 col-lg-10">
+
+	@foreach (var ite in Model.Select(x => x.OrderId ).Distinct())
+   {
+       <div class="row">
+    <p class="col-lg-2">@Model.Where(x => x.OrderId == ite).First().OrderDate</p>
+    <p class="col-lg-2">Total @Model.Where(x => x.OrderId == ite).First().UserName</p>
+    <p class="col-lg-2">Total @Model.Where(x => x.OrderId == ite).Sum(x => x.TotalCost) Kr</p>
+    
+</div>
+    
+        
+    @foreach (var item in Model.Where(x => x.OrderId == ite))
+    {
+       
+            <div class="row">
+                <img src="@item.PicPath" width="150px"/>
+
+
+                <div class="col-lg-2">
+                    <p>@item.BikeName</p>
+                    <p>@item.ManifacturerName</p>
+                </div>  
+
+        <input type="number" name="@item.BikeOrderId" value="@item.Quantity" min="1">
+        <button onclick="editOrder(@item.BikeOrderId,@item.BikeId,@item.OrderId)">edit order</button>
+        <button onclick="deleteOrder(@item.BikeOrderId)">delete order</button>
+                <h4 class="col-lg-1">@item.TotalCost Kr</h4> 
+                                   
+            </div>
+            <hr />
+            
+        
+
+}
+   
+}
+</div>
+<div class="col-12 col-md-4 col-lg-2">
+        <partial name="/Views/Shared/SidebarPartial.cshtml" model="UserManager.GetUserName(User)" />
+    </div>
+    </div>

@@ -1,0 +1,56 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using _4Bike.Areas.Identity.Data
+@using _4Bike.Models.Products;
+@using  _4Bike.Models.ViewModels;
+@model _4Bike.Models.Products.Product_Bike
+@{
+    ViewData["Title"] = "ChosenBike";
+}
+
+
+<body>
+
+
+
+    <div class="container-fluid">
+        <h1>Chosen Bike</h1>
+
+        <div class="row">
+            <div class="col-lg-8">
+                
+                <p @Html.DisplayNameFor(model => model.BikePicNav)></p>
+
+                <img src="/@Model.BikePicNav" alt="Bike" style="float: left; width:100%; height: 100%;">
+            </div>
+            @*<div class="col-lg-2" style="background-color: #E5E9EC;">*@
+            <div class="col-lg-2">
+
+               
+                <table class="table-borderless">
+
+                    <tbody>
+                        @*<tr>
+                                <td>@Html.DisplayNameFor(model => model.BikeID): @Model.BikeID</td>
+                            </tr>*@
+
+                        <tr style="align-items: center">
+                            <td style="padding-top: 100px; text-align-last: center"> <h2>@Model.BikeName</h2></td>
+                        </tr>
+
+                        <tr>
+                            <td style="padding-top: 100px;text-align-last:center "> <h3>@Model.BikePrice</h3></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                <form style="padding-top: 200px; " asp-controller="Home" asp-action="AddToShopingKart">
+                    <input type="hidden" name="bID" value="@Model.BikeID" />
+                    <input background-color:"aquamarine" type="submit" class="btn btn-warning" value="Add to cart" />
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+

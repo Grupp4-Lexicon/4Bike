@@ -1,34 +1,42 @@
-﻿@model IEnumerable<_4Bike.Models.ViewModels.ManufacturerViewModel>
+﻿@using _4Bike.Areas.Identity.Data
+@using Microsoft.AspNetCore.Identity
+@model IEnumerable<_4Bike.Models.ViewModels.ManufacturerViewModel>
+@inject UserManager<ApplicationUser> UserManager
 
 @{
     ViewData["Title"] = "ManufakturerIndex";
 }
+<div class="row">
+    <div class="col-12 col-md-8 col-lg-10">
+        <h5>The list of Manufakturer in Database</h5>
+        <p>
+            <a asp-action="AddManufacturer">Add Manufacturer</a>
+        </p>
 
-<h5>The list of Manufakturer in Database</h5>
-<p>
-    <a asp-action="AddManufacturer">Add Manufacturer</a>
-</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
 
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
 
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-12 col-md-4 col-lg-2"><partial name="/Views/Shared/SidebarPartial.cshtml" model="UserManager.GetUserName(User)" /></div>
+</div>
 
-            </tr>
-        }
-    </tbody>
-</table>

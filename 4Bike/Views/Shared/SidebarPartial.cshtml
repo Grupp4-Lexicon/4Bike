@@ -1,0 +1,44 @@
+﻿@using _4Bike.Areas.Identity.Data
+@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<ApplicationUser> UserManager
+@model string
+<div>
+
+    <div class="text-center">
+        <i class="fas fa-user-circle fa-9x text-secondary"></i>
+
+        <p>Welcome, @Model!</p>
+    </div>
+
+
+    <nav class="flex-column">
+        @if (User.IsInRole("Admin"))
+        {
+            <button type="button" class="btn btn-outline-secondary btn-lg btn-block my-4" onclick="location.href = '@Url.Action("UserList", "Role" )'">Manage User</button>
+            <button type="button" class="btn btn-outline-secondary btn-lg btn-block mb-4" onclick="location.href = '@Url.Action("Index", "Role" )'">Roles</button>
+            <button type="button" class="btn btn-outline-secondary btn-lg btn-block mb-4" onclick="location.href = '@Url.Action("EditOrder", "Home" )'">Edit orders</button>
+            <button type="button" class="btn btn-outline-secondary btn-lg btn-block mb-4" onclick="location.href = '@Url.Action("ListBikes", "Bike" )'">List of Bikes</button>
+            <button type="button" class="btn btn-outline-secondary btn-lg btn-block mb-4" onclick="location.href = '@Url.Action("AddBike", "Bike" )'">Add product</button>
+            <button type="button" class="btn btn-outline-secondary btn-lg btn-block mb-4" onclick="location.href = '@Url.Action("Index", "Manufacturer" )'">List of Manufacturer</button>
+            <button type="button" class="btn btn-outline-secondary btn-lg btn-block mb-4" onclick="location.href = '@Url.Action("AddManufacturer", "Manufacturer" )'">Add Manufacturer</button>
+        }
+        else if (User.IsInRole("User"))
+        {
+            <button type="button" class="btn btn-outline-secondary btn-lg btn-block mb-4" onclick="location.href = '@Url.Action("OrderingHistory","Home")'">History</button>
+        }
+        <button type="button" class="btn btn-outline-secondary btn-lg btn-block mb-4" onclick="location.href = '@Url.Action("EditUser", "Role")'">Account</button>
+
+
+
+        @*<form id="logoutForm" class="form-inline" action="/Identity/Account/Logout?returnUrl=%2F" method="post">
+
+            <button id="logout" class="btn btn-outline-secondary btn-lg btn-block" type="submit">Logout</button>
+
+            <input name="__RequestVerificationToken" type="hidden" value="">
+        </form>*@
+
+
+    </nav>
+
+</div>

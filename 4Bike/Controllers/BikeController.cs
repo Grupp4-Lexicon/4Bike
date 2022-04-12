@@ -31,8 +31,9 @@ namespace _4Bike.Controllers
 
         public IActionResult ListBikes()
         {
+
             var bikesInfo = _context.Bikes.
-                Include(a => a.Manufacturer)
+                Include(a => a.Manufacturer)             
                 .ToList();
 
             return View(bikesInfo);
@@ -44,7 +45,33 @@ namespace _4Bike.Controllers
             ViewBag.Manufacturers = _context.Manufacturers.ToList();
             return View();
         }
+        [HttpPost]
+        public IActionResult SertchBike(string sertchBike)
+        {
+            
+            if (_context.Bikes.Any(x => x.BikeName.StartsWith(sertchBike))) {
+                sertchBike = sertchBike.ToLower();
+                List<AddBikesViewModel> bik = (from b in _context.Bikes.ToList()
+                                               join m in _context.Manufacturers.ToList() on b.ManufacturerID equals m.ManufacturerID
+                                               where b.BikeName.ToLower().StartsWith(sertchBike)
+                                               select new AddBikesViewModel {BikeID =b.BikeID, BikeName = b.BikeName, ManufacturerID = m.ManufacturerID, Price = b.BikePrice, ManufacturerName = m.ManufacturerName, PicPath = b.BikePicNav }).ToList();
+                return PartialView("BikeSertch", bik);
+            }else if (_context.Manufacturers.Any(x => x.ManufacturerName.StartsWith(sertchBike)))
+            {
+                sertchBike = sertchBike.ToLower();
+                List<AddBikesViewModel> bik = (from b in _context.Bikes.ToList()
+                                               join m in _context.Manufacturers.ToList() on b.ManufacturerID equals m.ManufacturerID
+                                               where m.ManufacturerName.ToLower().StartsWith(sertchBike)
+                                               select new AddBikesViewModel {BikeID=b.BikeID, BikeName = b.BikeName, ManufacturerID = m.ManufacturerID, Price = b.BikePrice, ManufacturerName = m.ManufacturerName, PicPath = b.BikePicNav }).ToList();
+                return PartialView("BikeSertch", bik);
+            }
+            else
+            {
+                List<AddBikesViewModel> bik = new List<AddBikesViewModel>();
+                return PartialView("BikeSertch", bik);
+            }
 
+        }
         [HttpPost]
         public IActionResult AddBike(AddBikesViewModel bike)
         {
@@ -66,7 +93,9 @@ namespace _4Bike.Controllers
 
                 string filePath = Path.Combine(path, fileName);
                 string filePathForDB = Path.Combine(folderToSave, fileName);
+              
 
+    
                 using (FileStream stream = new FileStream(filePath, FileMode.Create))
                 {
                     bike.PicFile.CopyTo(stream);
@@ -91,23 +120,58 @@ namespace _4Bike.Controllers
 
         public IActionResult EditBike(int id)
         {
-            var bikeToEdit = _context.Bikes.Where(a => a.BikeID == id).Include(a => a.Manufacturer).FirstOrDefault();
+           
             List<Product_Manufacturer> manufacturerList = _context.Manufacturers.ToList();
 
+            AddBikesViewModel bik = (from b in _context.Bikes.ToList()
+                                           join m in _context.Manufacturers.ToList() on b.ManufacturerID equals m.ManufacturerID
+                                           where b.BikeID == id
+                                           select new AddBikesViewModel { BikeID = b.BikeID, BikeName = b.BikeName, ManufacturerID = m.ManufacturerID, Price = b.BikePrice, ManufacturerName = m.ManufacturerName, PicPath = b.BikePicNav }).SingleOrDefault(); ;
 
-            
-            ViewBag.Manufactures = manufacturerList.Select(a => new ManufacturerViewModel { ManufacturerID = a.ManufacturerID }).ToList();
+
+            ViewBag.Manufactures = manufacturerList.Select(a => new ManufacturerViewModel { ManufacturerID = a.ManufacturerID , Name = a.ManufacturerName}).ToList();
            
             _context.Bikes.Where(a => a.BikeID == id).FirstOrDefault();
 
-            return View(bikeToEdit);
+            return View(bik);
 
         }
 
         [HttpPost]
-        public IActionResult EditBike(Product_Bike eBike)
+        public IActionResult EditBike(AddBikesViewModel eBike)
         {
-            _context.Bikes.Update(eBike);
+            const string folderToSave = "BikePics";
+            string filePathForDB = eBike.PicPath;
+
+            string path = Path.Combine(Environment.WebRootPath, folderToSave);
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            if (eBike.PicFile != null)
+            {
+                string fileName = Path.GetFileNameWithoutExtension(eBike.PicFile.FileName) +
+                                      DateTime.Now.ToString("yy-hh-mm-ss-fff") +
+                                      Path.GetExtension(eBike.PicFile.FileName);
+
+                string filePath = Path.Combine(path, fileName);
+                filePathForDB = Path.Combine(folderToSave, fileName);
+
+                using (FileStream stream = new FileStream(filePath, FileMode.Create))
+                {
+                    eBike.PicFile.CopyTo(stream);
+                }
+
+            }
+            Product_Bike bikeProduct = new Product_Bike
+            {
+                BikeID = eBike.BikeID,
+                BikeName = eBike.BikeName,
+                BikePrice = eBike.Price,
+                BikePicNav = filePathForDB,
+                ManufacturerID = eBike.ManufacturerID
+            };
+            _context.Bikes.Update(bikeProduct);
             _context.SaveChanges();
             return RedirectToAction("ListBikes");
         }
@@ -122,5 +186,17 @@ namespace _4Bike.Controllers
             return RedirectToAction("ListBikes");
         }
 
+        public IActionResult ChosenBike(int bID)
+        {
+            var chosenBike = _context.Bikes.Where(a => a.BikeID == bID).Include(a => a.Manufacturer).FirstOrDefault();
+            List<Product_Manufacturer> manufacturerList = _context.Manufacturers.ToList();
+
+            ViewBag.Manufactures = manufacturerList.Select(a => new ManufacturerViewModel { ManufacturerID = a.ManufacturerID }).ToList();
+
+            _context.Bikes.Where(a => a.BikeID == bID).FirstOrDefault();
+
+            return View(chosenBike);
+
+        }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using _4Bike.Areas.Identity.Data;
 using _4Bike.Models.ViewModels;
+using _4Bike.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace _4Bike.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    
     public class RoleController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -35,8 +37,10 @@ namespace _4Bike.Controllers
 
         public async Task<IActionResult> EditUser(string id)
         {
-            var user = await _userManager.FindByIdAsync(id);
-
+            var user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            if(id != null) {
+                user = await _userManager.FindByIdAsync(id);
+            }
             return View(user);
         }
 
@@ -44,7 +48,10 @@ namespace _4Bike.Controllers
         public async Task<IActionResult> EditUser(string id, EditUserViewModel viewModel)
         {
             ApplicationUser targetUser = await _userManager.FindByIdAsync(id);
-
+            if (id == null)
+            {
+                targetUser = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            }
             if (ModelState.IsValid)
             {
                 targetUser.Email = viewModel.Email;
@@ -54,9 +61,13 @@ namespace _4Bike.Controllers
 
                 await _userManager.UpdateAsync(targetUser);
 
-                if(targetUser != null)
+                if(targetUser != null && id != null)
                 {
                     return RedirectToAction(nameof(UserList), "Role");
+                }
+                else
+                {
+                    return View(targetUser);
                 }
 
                 ModelState.AddModelError("Storage", "Failed to save user information");
@@ -124,6 +135,45 @@ namespace _4Bike.Controllers
             return View();
         }
 
+        /* [Authorize(Roles = "Admin")]
+         public IActionResult DeletePerson(int id)
+         {
+
+             var personToDelete = _userManager.Users.FindByIdAsync(id);
+             _userManager.Users.Remove(personToDelete);
+             _userManager.SaveChanges();
+
+             return View(_userManager.Users.ToList());
+         }*/
+
+        [HttpGet]
+        public async Task<ActionResult> DeleteUser(string id)
+        {
+            var userToRemove = await _userManager.FindByIdAsync(id);
+            if (userToRemove == null)
+            {
+                ViewBag.ErrorMessage = $"User with Id =  {id} can not be found";
+                return View("NotFound");
+            }
+            else
+            {
+                var result = await _userManager.DeleteAsync(userToRemove);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("UserList");
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return View("UserList");
+            }
+                        
+        }
+            
+
+        }
+
 
     }
-}
+
