@@ -35,8 +35,10 @@ namespace _4Bike.Controllers
 
         public async Task<IActionResult> EditUser(string id)
         {
-            var user = await _userManager.FindByIdAsync(id);
-
+            var user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            if(id != null) {
+                user = await _userManager.FindByIdAsync(id);
+            }
             return View(user);
         }
 
@@ -44,7 +46,10 @@ namespace _4Bike.Controllers
         public async Task<IActionResult> EditUser(string id, EditUserViewModel viewModel)
         {
             ApplicationUser targetUser = await _userManager.FindByIdAsync(id);
-
+            if (id == null)
+            {
+                targetUser = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            }
             if (ModelState.IsValid)
             {
                 targetUser.Email = viewModel.Email;
@@ -54,9 +59,13 @@ namespace _4Bike.Controllers
 
                 await _userManager.UpdateAsync(targetUser);
 
-                if(targetUser != null)
+                if(targetUser != null && id != null)
                 {
                     return RedirectToAction(nameof(UserList), "Role");
+                }
+                else
+                {
+                    return View(targetUser);
                 }
 
                 ModelState.AddModelError("Storage", "Failed to save user information");

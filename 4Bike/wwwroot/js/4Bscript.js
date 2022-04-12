@@ -29,3 +29,7 @@ function userSertch() {
         document.getElementById("orders").innerHTML = result;
     });
 }
+function loadImg(event) {
+    var image = document.getElementById('fileIMG');
+    image.src = URL.createObjectURL(event.target.files[0]);
+}

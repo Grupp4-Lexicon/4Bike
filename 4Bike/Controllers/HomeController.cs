@@ -92,7 +92,8 @@ namespace _4Bike.Controllers
                 sId = JsonSerializer.Deserialize<List<string>>(Request.Cookies["ShopingId"]);                
             }
             sId.Add(bID.ToString());
-            cookie.Expires = DateTime.Now.AddMinutes(2);
+            cookie.Expires = DateTime.Now.AddDays(3);
+
             Response.Cookies.Append("ShopingId", JsonSerializer.Serialize(sId), cookie);
             return RedirectToAction("ShopingKart");
         }
@@ -181,6 +182,7 @@ namespace _4Bike.Controllers
                                        join b in _context.Bikes.ToList() on bo.BikeOrderBikeID equals b.BikeID
                                        join m in _context.Manufacturers.ToList() on b.ManufacturerID equals m.ManufacturerID
                                        where o.Id == _userManager.GetUserId(HttpContext.User)
+                                       orderby o.OrderDate descending
                                        select new OrderView { OrderId = o.OrderID, ManifacturerName = m.ManufacturerName, BikeName = b.BikeName, Quantity = bo.BikeOrderQuantity, OrderDate = o.OrderDate, Price = b.BikePrice, PicPath = b.BikePicNav, TotalCost =bo.BikeOrderQuantity * b.BikePrice  }).ToList();
             return View(ordView);
         }

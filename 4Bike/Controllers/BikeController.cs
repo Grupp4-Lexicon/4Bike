@@ -117,23 +117,58 @@ namespace _4Bike.Controllers
 
         public IActionResult EditBike(int id)
         {
-            var bikeToEdit = _context.Bikes.Where(a => a.BikeID == id).Include(a => a.Manufacturer).FirstOrDefault();
+           
             List<Product_Manufacturer> manufacturerList = _context.Manufacturers.ToList();
 
+            AddBikesViewModel bik = (from b in _context.Bikes.ToList()
+                                           join m in _context.Manufacturers.ToList() on b.ManufacturerID equals m.ManufacturerID
+                                           where b.BikeID == id
+                                           select new AddBikesViewModel { BikeID = b.BikeID, BikeName = b.BikeName, ManufacturerID = m.ManufacturerID, Price = b.BikePrice, ManufacturerName = m.ManufacturerName, PicPath = b.BikePicNav }).SingleOrDefault(); ;
 
-            
+
             ViewBag.Manufactures = manufacturerList.Select(a => new ManufacturerViewModel { ManufacturerID = a.ManufacturerID }).ToList();
            
             _context.Bikes.Where(a => a.BikeID == id).FirstOrDefault();
 
-            return View(bikeToEdit);
+            return View(bik);
 
         }
 
         [HttpPost]
-        public IActionResult EditBike(Product_Bike eBike)
+        public IActionResult EditBike(AddBikesViewModel eBike)
         {
-            _context.Bikes.Update(eBike);
+            const string folderToSave = "BikePics";
+            string filePathForDB = eBike.PicPath;
+
+            string path = Path.Combine(Environment.WebRootPath, folderToSave);
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            if (eBike.PicFile != null)
+            {
+                string fileName = Path.GetFileNameWithoutExtension(eBike.PicFile.FileName) +
+                                      DateTime.Now.ToString("yy-hh-mm-ss-fff") +
+                                      Path.GetExtension(eBike.PicFile.FileName);
+
+                string filePath = Path.Combine(path, fileName);
+                filePathForDB = Path.Combine(folderToSave, fileName);
+
+                using (FileStream stream = new FileStream(filePath, FileMode.Create))
+                {
+                    eBike.PicFile.CopyTo(stream);
+                }
+
+            }
+            Product_Bike bikeProduct = new Product_Bike
+            {
+                BikeID = eBike.BikeID,
+                BikeName = eBike.BikeName,
+                BikePrice = eBike.Price,
+                BikePicNav = filePathForDB,
+                ManufacturerID = eBike.ManufacturerID
+            };
+            _context.Bikes.Update(bikeProduct);
             _context.SaveChanges();
             return RedirectToAction("ListBikes");
         }
