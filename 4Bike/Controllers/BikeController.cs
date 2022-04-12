@@ -129,7 +129,7 @@ namespace _4Bike.Controllers
                                            select new AddBikesViewModel { BikeID = b.BikeID, BikeName = b.BikeName, ManufacturerID = m.ManufacturerID, Price = b.BikePrice, ManufacturerName = m.ManufacturerName, PicPath = b.BikePicNav }).SingleOrDefault(); ;
 
 
-            ViewBag.Manufactures = manufacturerList.Select(a => new ManufacturerViewModel { ManufacturerID = a.ManufacturerID }).ToList();
+            ViewBag.Manufactures = manufacturerList.Select(a => new ManufacturerViewModel { ManufacturerID = a.ManufacturerID , Name = a.ManufacturerName}).ToList();
            
             _context.Bikes.Where(a => a.BikeID == id).FirstOrDefault();
 
