@@ -1,5 +1,6 @@
 ﻿@page
 @model IndexModel
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Profile";
     ViewData["ActivePage"] = ManageNavPages.Index;
@@ -9,20 +10,15 @@
 
 <partial name="_StatusMessage" model="Model.StatusMessage" />
 <div class="row">
-    <div class="col-md-6">
-        <form id="profile-form" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Username"></label>
-                <input asp-for="Username" class="form-control" disabled />
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.PhoneNumber"></label>
-                <input asp-for="Input.PhoneNumber" class="form-control" />
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
-            </div>
-            <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
-        </form>
+    <p class="col-lg-2" style="font-weight:bold">Username/Email:</p><p class="col-lg-10">@UserManager.GetUserName(User)</p>
+    <p class="col-lg-1" style="font-weight:bold">Name:</p><p class="col-lg-11">@UserManager.Users.Where(x => x.Id == UserManager.GetUserId(User)).First().FirstName</>
+    <p class="col-lg-1" style="font-weight:bold">Lastname:</p><p class="col-lg-11">@UserManager.Users.Where(x => x.Id == UserManager.GetUserId(User)).First().LastName</p>
+    <p class="col-lg-1" style="font-weight:bold">Address:</p><p class="col-lg-11">@UserManager.Users.Where(x => x.Id == UserManager.GetUserId(User)).First().Address</p>
+</div>
+<div class="row">
+    <div class="col-lg-2" style="background-color: rgb(204, 204, 204)">
+      <p>You can edit youre acount by pressing the button below</p>
+    <button type="button" class="btn btn-outline-secondary btn-sm btn-block mb-4" onclick="location.href = '@Url.Action("EditUser", "Role")'">Account</button>
     </div>
 </div>
 

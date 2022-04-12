@@ -21,7 +21,7 @@
    {
        <div class="row">
     <p class="col-lg-2">@Model.Where(x => x.OrderId == ite).First().OrderDate</p>
-    <p class="col-lg-2">Total @Model.Where(x => x.OrderId == ite).First().UserName</p>
+    <p class="col-lg-3">User @Model.Where(x => x.OrderId == ite).First().UserName</p>
     <p class="col-lg-2">Total @Model.Where(x => x.OrderId == ite).Sum(x => x.TotalCost) Kr</p>
     
 </div>
