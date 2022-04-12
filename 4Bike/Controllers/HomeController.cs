@@ -148,12 +148,12 @@ namespace _4Bike.Controllers
         {          
             
             if (orderService.ListOrderDate().Any(x => x.OrderDate.Date == orderDate) && userName != null)
-            {
-                return View(orderService.ListOrderDate().Where(x => x.OrderDate.Date==orderDate && x.UserName.StartsWith(userName)));
+            {                
+                return PartialView(orderService.ListOrderDate().Where(x => x.OrderDate.Date==orderDate && x.UserName.StartsWith(userName)));
 
             }else if(orderService.ListOrderDate().Any(x => x.OrderDate.Date == orderDate))
             {
-
+                
                 return PartialView("ViewOrder",orderService.ListOrderDate().Where(x => x.OrderDate.Date == orderDate ));
 
             }
@@ -161,7 +161,10 @@ namespace _4Bike.Controllers
             {
                 return PartialView("ViewOrder", orderService.ListOrderDate().Where(x => x.UserName.StartsWith(userName)));
             }
-            return PartialView("ViewOrder", orderService.ListOrderDate());
+            else { 
+                return PartialView("ViewOrder", orderService.ListOrderDate());
+            }
+            
         }
         [HttpPost]
         public IActionResult UpdateOrder(Product_BikeOrder bikeOrder)

@@ -37,7 +37,7 @@
                     <div class="carousel-item @activeClassName"> 
                         <h5 class="text-dark" style=" text-align :center"> <h2 style="color: #808080">@bike.BikeName</h2></h5>
                         <img src="@bike.BikePicNav" class="img-fluid" style="width:70%;height:500px" />
-                        <a style="position:absolute;top:200px;bottom:200px;left:200px;right:200px;" asp-area="" asp-controller="Bike" asp-action="ChosenBike" asp-route-id="@bike.BikeID"></a>
+                        <a style="position:absolute;top:200px;bottom:200px;left:200px;right:200px;" onclick="location.href='@Url.Action("ChosenBike","Bike",new{bID = bike.BikeID})'"></a>
                         <div class="carousel-caption d-none d-md-block">
 
 
