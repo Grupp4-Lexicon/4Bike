@@ -2,7 +2,6 @@
 ﻿using System;
 using System.Collections.Generic;
 ﻿using Microsoft.AspNetCore.Http;
-using System;
 
 
 namespace _4Bike.Models.ViewModels
