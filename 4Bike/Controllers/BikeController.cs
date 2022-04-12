@@ -31,8 +31,9 @@ namespace _4Bike.Controllers
 
         public IActionResult ListBikes()
         {
+
             var bikesInfo = _context.Bikes.
-                Include(a => a.Manufacturer)
+                Include(a => a.Manufacturer)             
                 .ToList();
 
             return View(bikesInfo);
@@ -90,7 +91,9 @@ namespace _4Bike.Controllers
 
                 string filePath = Path.Combine(path, fileName);
                 string filePathForDB = Path.Combine(folderToSave, fileName);
+              
 
+    
                 using (FileStream stream = new FileStream(filePath, FileMode.Create))
                 {
                     bike.PicFile.CopyTo(stream);
