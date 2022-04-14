@@ -1,8 +1,8 @@
 ﻿@using _4Bike.Areas.Identity.Data
 @using Microsoft.AspNetCore.Identity
 
-
-@model IEnumerable<_4Bike.Areas.Identity.Data.ApplicationUser>
+@*@model IEnumerable<_4Bike.Areas.Identity.Data.ApplicationUser>*@
+@model IEnumerable<_4Bike.Models.ViewModels.UserViewModel>
 @inject UserManager<ApplicationUser> UserManager
 
 @{
@@ -26,13 +26,20 @@
                 @foreach (var item in Model)
                 {
                 <tr>
-                    <td>@item.Id</td>
-                    <td>@item.Email</td>
-                    <td>@item.FirstName</td>
-                    <td>@item.LastName</td>
-                    <td>@item.Address</td>
-                    <td><a asp-controller="Role" asp-action="EditUser" asp-route-id="@item.Id">Edit</a></td>|
-                    <td><a asp-controller="Role" asp-action="DeleteUser" asp-route-id="@item.Id">Delete</a></td>|
+                    <td>@item.User.Id</td>
+                    <td>@item.User.Email</td>
+                    <td>@item.User.FirstName</td>
+                    <td>@item.User.LastName</td>
+                    <td>@item.User.Address</td>
+                    <td><a asp-controller="Role" asp-action="EditUser" asp-route-id="@item.User.Id">Edit</a></td>
+                    <td>
+                        <button class="DeleteButton"
+                                style="border: none; background-color: transparent;color:red"
+                                data-hasOrderFlag="@item.HasOrder" data-userId="@item.User.Id">
+                            Delete
+                        </button>
+                        <!--<span class="hasOrderFlag" style="display:none;">@item.HasOrder</span>-->
+                    </td>
                 </tr>
                 }
             </tbody>
@@ -43,3 +50,8 @@
     </div>
 
 </div>
+
+@section Scripts
+{
+    <script src="~/js/DeleteUser.js"></script>
+}

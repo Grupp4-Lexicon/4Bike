@@ -93,6 +93,11 @@ namespace _4Bike.Services
             _context.SaveChanges();
         }
 
+        public void RemoveOrderByUserId(string userId) {
+            _context.Orders.RemoveRange(_context.Orders.Where(a => a.ApplicationUser.Id == userId));
+            _context.SaveChanges();
+        }
+
         public void RemoveOrder(Product_BikeOrder bikeOrder)
         {
             _context.BikeOrders.Update(bikeOrder);

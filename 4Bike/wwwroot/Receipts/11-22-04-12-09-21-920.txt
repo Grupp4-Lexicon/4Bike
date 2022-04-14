@@ -1,0 +1,64 @@
+-----------------------------------
+OrderId: 11
+Orederd Item: Crescent
+Ordered Quantity: 1 
+Oredred Item Price: 600000 
+Order Total Price: 600000
+Orederd Date: 4/12/2022 9:21:19 PM
+-----------------------------------
+-----------------------------------
+OrderId: 10
+Orederd Item: Crescent
+Ordered Quantity: 1 
+Oredred Item Price: 600000 
+Order Total Price: 600000
+Orederd Date: 4/12/2022 9:19:23 PM
+-----------------------------------
+-----------------------------------
+OrderId: 9
+Orederd Item: Crescent
+Ordered Quantity: 1 
+Oredred Item Price: 600000 
+Order Total Price: 600000
+Orederd Date: 4/12/2022 9:19:02 PM
+-----------------------------------
+-----------------------------------
+OrderId: 8
+Orederd Item: Crescent
+Ordered Quantity: 1 
+Oredred Item Price: 600000 
+Order Total Price: 600000
+Orederd Date: 4/12/2022 2:43:40 PM
+-----------------------------------
+-----------------------------------
+OrderId: 6
+Orederd Item: Crescent
+Ordered Quantity: 1 
+Oredred Item Price: 600000 
+Order Total Price: 600000
+Orederd Date: 4/12/2022 11:24:44 AM
+-----------------------------------
+-----------------------------------
+OrderId: 5
+Orederd Item: Ride4Europe
+Ordered Quantity: 4 
+Oredred Item Price: 120000 
+Order Total Price: 480000
+Orederd Date: 4/12/2022 11:24:09 AM
+-----------------------------------
+-----------------------------------
+OrderId: 4
+Orederd Item: Crescent
+Ordered Quantity: 1 
+Oredred Item Price: 600000 
+Order Total Price: 600000
+Orederd Date: 4/12/2022 11:24:00 AM
+-----------------------------------
+-----------------------------------
+OrderId: 3
+Orederd Item: Ride4Europe
+Ordered Quantity: 1 
+Oredred Item Price: 120000 
+Order Total Price: 120000
+Orederd Date: 4/8/2022 12:20:42 PM
+-----------------------------------
