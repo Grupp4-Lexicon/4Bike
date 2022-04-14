@@ -9,8 +9,6 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Text.Json;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 
 namespace _4Bike.Services
@@ -46,33 +44,6 @@ namespace _4Bike.Services
                     _context.BikeOrders.Add(pb);
                 }
                 _context.SaveChanges();
-        }
-
-        public List<OrderView> SearchOrder(OrderView input)
-        {
-            List<OrderView> listToSearch = ListOrder();
-            List<OrderView> searchResult = new List<OrderView>();
-
-            foreach(var item in listToSearch)
-            {
-                if(listToSearch.Any(item => item.BikeName == input.BikeName || item.OrderDate == input.OrderDate))
-                {
-                    searchResult.Add(item);
-                }
-            }
-
-            return searchResult;
-        }
-
-        public List<OrderView> ListOrder()
-        {
-            List<OrderView> ordView = (from o in _context.Orders.ToList()
-                                       join bo in _context.BikeOrders.ToList() on o.OrderID equals bo.BikeOrderOrderID
-                                       join b in _context.Bikes.ToList() on bo.BikeOrderBikeID equals b.BikeID
-                                       join u in _context.Users.ToList() on o.Id equals u.Id
-                                       where o.OrderID == 4
-                                       select new OrderView { BikeName = b.BikeName, Quantity = bo.BikeOrderQuantity, OrderDate = o.OrderDate, Price = b.BikePrice }).ToList();
-            return ordView;
         }
 
         public List<OrderView> ListOrderDate()

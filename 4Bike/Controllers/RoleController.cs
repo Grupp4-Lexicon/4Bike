@@ -1,13 +1,9 @@
 ﻿using _4Bike.Areas.Identity.Data;
 using _4Bike.Models.ViewModels;
-using _4Bike.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using _4Bike.Data;
@@ -37,7 +33,7 @@ namespace _4Bike.Controllers
         {
             return View(_roleManager.Roles);
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult UserList()
         {
             List<UserViewModel> users =_userManager.Users.Select(a => new UserViewModel() { User = a }).ToList();
@@ -169,6 +165,7 @@ namespace _4Bike.Controllers
          }*/
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteUser(string id)
         {
             var userToRemove = await _userManager.FindByIdAsync(id);

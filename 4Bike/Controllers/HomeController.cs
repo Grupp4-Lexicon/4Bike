@@ -1,12 +1,10 @@
 ﻿using _4Bike.Models;
 using _4Bike.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using _4Bike.Models.ViewModels;
 using _4Bike.Models.Products;
 using Microsoft.AspNetCore.Http;
@@ -15,6 +13,7 @@ using _4Bike.Areas.Identity.Data;
 using System.Text.Json;
 using _4Bike.Services;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authorization;
 
 namespace _4Bike.Controllers
 {
@@ -59,6 +58,7 @@ namespace _4Bike.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult EditOrder()
         {
             //orderView.OrderList = orderService.ListOrder();
@@ -132,6 +132,7 @@ namespace _4Bike.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult RemoveBikeOrder(int boId)
         {
             _context.BikeOrders.Remove(_context.BikeOrders.Find(boId));
@@ -148,6 +149,7 @@ namespace _4Bike.Controllers
             return PartialView("ViewOrder", orderService.ListOrderDate());
         }  
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult ViewOrder(string userName,DateTime orderDate)
         {          
             
@@ -171,6 +173,7 @@ namespace _4Bike.Controllers
             
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult UpdateOrder(Product_BikeOrder bikeOrder)
         {     
             _context.BikeOrders.Update(bikeOrder);

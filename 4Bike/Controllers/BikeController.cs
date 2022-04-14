@@ -1,15 +1,14 @@
 ﻿using _4Bike.Data;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using _4Bike.Models.Products;
 using _4Bike.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace _4Bike.Controllers
 {
@@ -38,7 +37,7 @@ namespace _4Bike.Controllers
 
             return View(bikesInfo);
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult AddBike()
         {
             ViewBag.Bikes = _context.Bikes.ToList();
@@ -117,7 +116,7 @@ namespace _4Bike.Controllers
 
             return RedirectToAction("ListBikes");
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult EditBike(int id)
         {
            
