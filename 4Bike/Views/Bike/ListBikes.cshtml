@@ -37,7 +37,7 @@
                         @*<td>@item.ManufacturerName</td>*@
 
 
-                        <td><a asp-action="DeleteBike" asp-route-id=@item.BikeID>Delete</a> | <a asp-action="EditBike" asp-route-id=@item.BikeID>Edit</a></td>
+                        <td><a asp-action="EditBike" asp-route-id=@item.BikeID>Edit</a> </td> <td><a asp-action="DeleteBike" asp-route-id=@item.BikeID style="color:red">Delete</a></td>
                     </tr>
                 }
 

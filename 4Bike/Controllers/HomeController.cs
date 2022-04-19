@@ -1,12 +1,10 @@
 ﻿using _4Bike.Models;
 using _4Bike.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using _4Bike.Models.ViewModels;
 using _4Bike.Models.Products;
 using Microsoft.AspNetCore.Http;
@@ -14,23 +12,27 @@ using Microsoft.AspNetCore.Identity;
 using _4Bike.Areas.Identity.Data;
 using System.Text.Json;
 using _4Bike.Services;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authorization;
 
 namespace _4Bike.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IWebHostEnvironment _environment;
         private readonly OrderService orderService;
         private readonly AuthDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         public static CookieOptions cookie = new CookieOptions();
 
-        public HomeController(AuthDbContext authDbContext, UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser> signInManager)
+        public HomeController(AuthDbContext authDbContext, UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser> signInManager, IWebHostEnvironment environment)
         {
+            _environment = environment;
             _context = authDbContext;
             _userManager = userManager;
             _signInManager = signInManager;
-            orderService = new OrderService(authDbContext, userManager, signInManager);
+            orderService = new OrderService(authDbContext, userManager, signInManager, environment);
         }
 
         public IActionResult Index()
@@ -56,6 +58,7 @@ namespace _4Bike.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult EditOrder()
         {
             //orderView.OrderList = orderService.ListOrder();
@@ -129,6 +132,7 @@ namespace _4Bike.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult RemoveBikeOrder(int boId)
         {
             _context.BikeOrders.Remove(_context.BikeOrders.Find(boId));
@@ -145,6 +149,7 @@ namespace _4Bike.Controllers
             return PartialView("ViewOrder", orderService.ListOrderDate());
         }  
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult ViewOrder(string userName,DateTime orderDate)
         {          
             
@@ -168,9 +173,10 @@ namespace _4Bike.Controllers
             
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult UpdateOrder(Product_BikeOrder bikeOrder)
         {     
-                _context.BikeOrders.Update(bikeOrder);
+            _context.BikeOrders.Update(bikeOrder);
             _context.SaveChanges();
 
             return PartialView("ViewOrder", orderService.ListOrderDate());
@@ -196,6 +202,13 @@ namespace _4Bike.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult MakeReceipt(int orderId)
+        {
+            orderService.OrderReceipt(orderId);
+
+            return Redirect(Request.Headers["Referer"].ToString());
         }
     }
 }

@@ -1,15 +1,16 @@
 ﻿using _4Bike.Areas.Identity.Data;
 using _4Bike.Models.ViewModels;
-using _4Bike.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using _4Bike.Data;
+using _4Bike.Services;
+using _4Bike.Models.Products;
+using Microsoft.AspNetCore.Hosting;
+using System.Collections.Generic;
 
 namespace _4Bike.Controllers
 {
@@ -18,21 +19,39 @@ namespace _4Bike.Controllers
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly AuthDbContext _context;
+        private readonly OrderService orderService;
 
-        public RoleController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
+        public RoleController(AuthDbContext authDbContext, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IWebHostEnvironment environment)
         {
             _roleManager = roleManager;
             _userManager = userManager;
+            _context = authDbContext;
+            orderService = new OrderService(_context, userManager, signInManager, environment); ;
         }
 
         public IActionResult Index()
         {
             return View(_roleManager.Roles);
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult UserList()
         {
-            return View(_userManager.Users.ToList());
+            List<UserViewModel> users =_userManager.Users.Select(a => new UserViewModel() { User = a }).ToList();
+            var orders = orderService.ListOrderDate();
+            foreach (var user in users)
+            {
+                user.HasOrder = orders.Any(x => x.UserName == user.User.UserName);
+                /*foreach(var order in orders)
+                {
+                    if (user.User.UserName == order.UserName) { 
+                        user.HasOrder = true;
+                        Console.WriteLine(user.User.UserName  + " Hs Order");
+                    }
+                } */
+            }
+
+            return View(users);
         }
 
         public async Task<IActionResult> EditUser(string id)
@@ -147,16 +166,18 @@ namespace _4Bike.Controllers
          }*/
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteUser(string id)
         {
             var userToRemove = await _userManager.FindByIdAsync(id);
             if (userToRemove == null)
             {
                 ViewBag.ErrorMessage = $"User with Id =  {id} can not be found";
-                return View("NotFound");
+                return View(NotFound());
             }
             else
             {
+                orderService.RemoveOrderByUserId(id);
                 var result = await _userManager.DeleteAsync(userToRemove);
                 if (result.Succeeded)
                 {
@@ -168,11 +189,12 @@ namespace _4Bike.Controllers
                 }
                 return View("UserList");
             }
-                        
-        }
-            
 
         }
+
+        
+
+    }
 
 
     }
