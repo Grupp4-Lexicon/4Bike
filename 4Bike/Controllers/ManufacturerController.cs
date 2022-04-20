@@ -35,6 +35,15 @@ namespace _4Bike.Controllers
             return RedirectToAction("Index");
         }
 
+       
+        public IActionResult DeleteManufacturer(string manufacturerName)
+        {
+            var manufacturerToDelete = _context.Manufacturers.FirstOrDefault(x => x.ManufacturerName == manufacturerName);
+            _context.Manufacturers.Remove(manufacturerToDelete);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
 
 
 
