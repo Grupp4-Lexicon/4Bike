@@ -26,13 +26,17 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>
+                <tr>
+                    <td>
 
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        <a asp-action="DeleteManufacturer"  asp-route-manufacturerName="@item.Name" >Delete</a>
 
-                    </tr>
+                    </td>
+
+                </tr>
                 }
             </tbody>
         </table>
