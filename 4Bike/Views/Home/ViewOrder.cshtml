@@ -16,7 +16,10 @@
 
 <div class="row">
     <div class="col-12 col-md-8 col-lg-10">
+        <input type="search" name="userSertch" placeholder="Username/Email"/>
+        <input type="date" name="oDate"/>
 
+        <button class="btn my-2 my-sm-0 text-dark"  onclick="userSertch()"><i class="fas fa-search"></i></button>
 	@foreach (var ite in Model.Select(x => x.OrderId ).Distinct())
    {
        <div class="row" style="background-color:rgb(245, 245, 245)">
