@@ -27,7 +27,7 @@ namespace _4Bike.Controllers
         {
             return View();
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult ListBikes()
         {
 
@@ -72,6 +72,7 @@ namespace _4Bike.Controllers
 
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult AddBike(AddBikesViewModel bike)
         {
             const string folderToSave = "BikePics";
@@ -137,6 +138,7 @@ namespace _4Bike.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult EditBike(AddBikesViewModel eBike)
         {
             const string folderToSave = "BikePics";
@@ -174,7 +176,7 @@ namespace _4Bike.Controllers
             _context.SaveChanges();
             return RedirectToAction("ListBikes");
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteBike(int id)
         {
 

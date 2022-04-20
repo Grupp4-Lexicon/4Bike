@@ -7,12 +7,18 @@
 @{
     ViewData["Title"] = "orderHistory";
 }
+
 <div class="row">
     <div class="col-12 col-md-8 col-lg-10">
+@if(!Model.Any())
+{
+  <h1>You dont have any orders curently</h1>  
+  <p>If youre order isnt curently available it may have bin removed by our staff. Plese contact them for details</p>
+}
 @foreach (var ite in Model.Select(x => x.OrderId ).Distinct())
    {
        <div class="row">
-           <p class="col-lg-2">@Model.Where(x => x.OrderId == ite).First().OrderDate</p> <p class="col-lg-2">Total @Model.Where(x => x.OrderId == ite).Sum(x => x.TotalCost) Kr</p>
+           <p class="col-lg-2" style="font-weight:bold">@Model.Where(x => x.OrderId == ite).First().OrderDate</p> <p class="col-lg-2">Total @Model.Where(x => x.OrderId == ite).Sum(x => x.TotalCost) Kr</p>
            <a class="btn btn-primary" onclick="location.href='@Url.Action("MakeReceipt", "Home", new { orderId = ite })'">Get Receipt</a>
        </div>
     @foreach (var item in Model.Where(x => x.OrderId == ite))
@@ -27,9 +33,8 @@
                           <p>@item.ManifacturerName</p>
                           </div>                        
                       
-                      <p>@item.Quantity</p>
-                      <p class="col-lg-1">@item.Price Kr</p>
-                          <h4 class="col-lg-1">@item.TotalCost Kr</h4>                          
+                      <p class="col-lg-1" style="margin-top:30px">@item.Quantity * @item.Price Kr</p>
+                          <h4 class="col-lg-2" style="margin-top:30px">@item.TotalCost Kr</h4>                          
                       </div>
                       <hr />
                       

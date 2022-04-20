@@ -125,6 +125,7 @@ namespace _4Bike.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult RemoveOrder(int orderID)
         {
             orderService.RemoveOrder(orderID);
