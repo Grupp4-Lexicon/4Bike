@@ -84,6 +84,11 @@ namespace _4Bike.Controllers
                     bikes.Add(shopingcart);
                 }
             }
+            if (bikes.Any(null))
+            {
+                Response.Cookies.Delete("ShopingId");
+                bikes.Clear();
+            }
             return View(bikes);
         }
         [HttpPost]
