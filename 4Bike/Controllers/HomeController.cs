@@ -84,7 +84,7 @@ namespace _4Bike.Controllers
                     bikes.Add(shopingcart);
                 }
             }
-            if (bikes.Any(null))
+            if (bikes.Any(a =>a ==null))
             {
                 Response.Cookies.Delete("ShopingId");
                 bikes.Clear();
