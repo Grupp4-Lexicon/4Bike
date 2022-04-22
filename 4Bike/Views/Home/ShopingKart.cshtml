@@ -27,9 +27,8 @@
                           <p>@item.ManufacturerName</p>
                           </div>                        
                       
-                      <p>@item.Quantity</p>
-                      <p class="col-lg-1">@item.Price Kr</p>
-                          <h3 class="col-lg-1">@item.TotalPrice Kr</h3>
+                      <p class="col-lg-2"  style="padding:0px">@item.Quantity * @item.Price Kr</p>
+                          <h3 class="col-lg-2" style="padding:0px">@item.TotalPrice Kr</h3>
                           <button class="btn btn-link text-dark" onclick="location.href='@Url.Action("RemoveFromShopingKart","Home",new{bID = item.BikeID})'"><i class="fa-regular fa-x"></i></button>
                           
                       </div>

@@ -18,10 +18,11 @@
             <button type="button" class="btn btn-outline-secondary btn-lg btn-block my-4" onclick="location.href = '@Url.Action("UserList", "Role" )'">Manage User</button>
             <button type="button" class="btn btn-outline-secondary btn-lg btn-block mb-4" onclick="location.href = '@Url.Action("Index", "Role" )'">Roles</button>
             <button type="button" class="btn btn-outline-secondary btn-lg btn-block mb-4" onclick="location.href = '@Url.Action("EditOrder", "Home" )'">Edit orders</button>
-            <button type="button" class="btn btn-outline-secondary btn-lg btn-block mb-4" onclick="location.href = '@Url.Action("ListBikes", "Bike" )'">List of Bikes</button>
             <button type="button" class="btn btn-outline-secondary btn-lg btn-block mb-4" onclick="location.href = '@Url.Action("AddBike", "Bike" )'">Add product</button>
-            <button type="button" class="btn btn-outline-secondary btn-lg btn-block mb-4" onclick="location.href = '@Url.Action("Index", "Manufacturer" )'">List of Manufacturer</button>
+            <button type="button" class="btn btn-outline-secondary btn-lg btn-block mb-4" onclick="location.href = '@Url.Action("ListBikes", "Bike" )'">List of Bikes</button>
             <button type="button" class="btn btn-outline-secondary btn-lg btn-block mb-4" onclick="location.href = '@Url.Action("AddManufacturer", "Manufacturer" )'">Add Manufacturer</button>
+            <button type="button" class="btn btn-outline-secondary btn-lg btn-block mb-4" onclick="location.href = '@Url.Action("Index", "Manufacturer" )'">List of Manufacturer</button>
+            
         }
         else if (User.IsInRole("User"))
         {

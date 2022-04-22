@@ -16,14 +16,14 @@
         <h1>Chosen Bike</h1>
 
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-7">
                 
                 <p @Html.DisplayNameFor(model => model.BikePicNav)></p>
 
-                <img src="/@Model.BikePicNav" alt="Bike" style="float: left; width:100%; height: 100%;">
+                <img src="/@Model.BikePicNav" alt="Bike" style="float: left; width:700px; height:500px;">
             </div>
             @*<div class="col-lg-2" style="background-color: #E5E9EC;">*@
-            <div class="col-lg-2">
+            <div class="col-lg-3">
 
                
                 <table class="table-borderless">
@@ -34,17 +34,20 @@
                             </tr>*@
 
                         <tr style="align-items: center">
-                            <td style="padding-top: 100px; text-align-last: center"> <h2>@Model.BikeName</h2></td>
+                            <td style="padding-top: 50px text-align-last: center"> <h2>@Model.BikeName</h2></td>
                         </tr>
+                        <tr>
+<td style="padding-top: 30px;text-align-last:center "> <h3>@Model.Manufacturer.ManufacturerName </h3></td>
+</tr>
 
                         <tr>
-                            <td style="padding-top: 100px;text-align-last:center "> <h3>@Model.BikePrice</h3></td>
+                            <td style="padding-top: 50px;text-align-last:center "> <p style="font-size:large">@Model.BikePrice Kr</p></td>
                         </tr>
 
                     </tbody>
                 </table>
 
-                <form style="padding-top: 200px; " asp-controller="Home" asp-action="AddToShopingKart">
+                <form style="padding-top: 80px; " asp-controller="Home" asp-action="AddToShopingKart">
                     <input type="hidden" name="bID" value="@Model.BikeID" />
                     <input background-color:"aquamarine" type="submit" class="btn btn-warning" value="Add to cart" />
                 </form>

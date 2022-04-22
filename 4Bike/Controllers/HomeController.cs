@@ -84,6 +84,11 @@ namespace _4Bike.Controllers
                     bikes.Add(shopingcart);
                 }
             }
+            if (bikes.Any(a =>a ==null))
+            {
+                Response.Cookies.Delete("ShopingId");
+                bikes.Clear();
+            }
             return View(bikes);
         }
         [HttpPost]
@@ -125,6 +130,7 @@ namespace _4Bike.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult RemoveOrder(int orderID)
         {
             orderService.RemoveOrder(orderID);
